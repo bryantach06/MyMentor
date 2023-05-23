@@ -55,6 +55,11 @@
     <string name="login_title">Login</string>
     <string name="action_login_page_sign_up">Sign Up</string>
     <string name="login_page_sign_up_direction">Don\'t Have An Account?</string>
-    <string name="or">Or</string>
+    <string name="or">OR</string>
     <string name="tv_signin_with_google">Continue with Google</string>
+    <string name="register_title">Register</string>
+    <string name="action_signup">Sign Up</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="signup_page_login_direction">Already have an account?</string>
+    <string name="action_signup_page_login">Login</string>
 </resources>

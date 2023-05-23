@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "162290684267-947q74p9gvg7oroaeoa5s2ucgjtf3kej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.capstone.mymentor",
+            "certificate_hash": "cebdd526e614d63165b0c8a8b1e8b5f82f4fc83e"
+          }
+        },
+        {
           "client_id": "162290684267-5g5uodhat3mi1vk8cq4mf4v0p347b586.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -1,10 +1,10 @@
-package com.capstone.mymentor.ui.login
+package com.capstone.mymentor.ui.register
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -12,10 +12,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import com.capstone.mymentor.MainActivity
-import com.capstone.mymentor.databinding.ActivityLoginBinding
 import com.capstone.mymentor.R
-import com.capstone.mymentor.customs.MyEditText
-import com.capstone.mymentor.ui.register.RegisterActivity
+import com.capstone.mymentor.databinding.ActivityRegisterBinding
+import com.capstone.mymentor.ui.login.LoginActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -26,16 +25,16 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class LoginActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityRegisterBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val gso = GoogleSignInOptions
@@ -47,18 +46,19 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        binding.googleLogin?.setOnClickListener {
+        binding.googleLogin.setOnClickListener {
             signIn()
         }
 
-        binding.tvLoginActionSignup?.setOnClickListener {
-            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+        binding.tvSignupActionLogin.setOnClickListener {
+            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
             startActivity(intent)
         }
 
-        setupAction()
         setupView()
+        setupAction()
     }
+
     private fun setupView() {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -76,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
         val signInIntent = googleSignInClient.signInIntent
         resultLauncher.launch(signInIntent)
     }
+
     private var resultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -92,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
@@ -108,59 +110,83 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+
     private fun updateUI(currentUser: FirebaseUser?) {
-        if (currentUser != null){
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        if (currentUser != null) {
+            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
             finish()
         }
     }
 
     private fun setMyButtonEnable() {
-        val email = binding.username.text
-        val password = (binding.password as MyEditText).text
-        binding.login.isEnabled =
-            email != null && password != null && email.toString()
-                .isNotEmpty() && password.toString().isNotEmpty()
+        val email = binding.email.text
+        val password = binding.password.text
+        val confirmPassword = binding.confirmPassword.text
+        binding.signup.isEnabled =
+            email != null && password != null && confirmPassword != null && email.toString()
+                .isNotEmpty() && password.toString()
+                .isNotEmpty() && confirmPassword.toString().isNotEmpty()
     }
 
     private fun setupAction() {
-        val password = (binding.password as MyEditText)
-        binding.username.addTextChangedListener {
+        val password = binding.password
+        val confirmPassword = binding.confirmPassword
+
+        binding.email.addTextChangedListener {
             setMyButtonEnable()
         }
 
         password.addTextChangedListener {
-            val password = (binding.password as MyEditText).text
+            val password = binding.password.text
             if (password?.length!! >= 8) {
                 setMyButtonEnable()
             } else {
-                binding.login.isEnabled = false
+                binding.signup.isEnabled = false
             }
         }
 
-        binding.login.setOnClickListener {
-            val email = binding.username.text.toString()
-            val password = (binding.password as MyEditText).text.toString()
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "signInWithEmail:success")
-                        val user = auth.currentUser
-                        updateUI(user)
-                    } else {
-                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                        updateUI(null)
-                    }
+        confirmPassword.addTextChangedListener {
+            val confirmPassword = binding.confirmPassword.text
+            if (confirmPassword?.length!! >= 8) {
+                setMyButtonEnable()
+            } else {
+                binding.signup.isEnabled = false
+            }
+        }
+
+        binding.signup.setOnClickListener {
+            val email = binding.email.text.toString()
+            val password = binding.password.text.toString()
+            val confirmPassword = binding.confirmPassword.text.toString()
+            when {
+                password != confirmPassword -> {
+                    binding.confirmPassword.error = "Password do not match!"
                 }
+                else -> {
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(this@RegisterActivity, "Account created successfully", Toast.LENGTH_SHORT).show()
+                                val user = auth.currentUser
+                                updateUI(user)
+                                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                Toast.makeText(
+                                    this@RegisterActivity,
+                                    "Signup failed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                updateUI(null)
+                            }
+                        }
+                }
+            }
         }
     }
 
     companion object {
-        private const val TAG = "LoginActivity"
+        private const val TAG = "RegisterActivity"
     }
+
 }

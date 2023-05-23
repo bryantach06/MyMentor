@@ -2,14 +2,43 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.register.RegisterActivity">
+
+    <TextView
+        android:id="@+id/tv_register_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="136dp"
+        android:text="@string/register_title"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/email"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/email"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_edittext"
+        android:padding="14dp"
+        android:hint="@string/prompt_email"
+        android:textColorHint="@color/grey"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_register_title"
+        android:autofillHints="Email"
+        android:inputType="textEmailAddress" />
 
     <com.capstone.mymentor.customs.MyEditText
         android:id="@+id/password"
@@ -23,84 +52,57 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
-    <EditText
-        android:id="@+id/username"
+    <com.capstone.mymentor.customs.MyEditText
+        android:id="@+id/confirm_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/custom_edittext"
-        android:padding="14dp"
-        android:hint="@string/prompt_email"
         android:textColorHint="@color/grey"
-        android:selectAllOnFocus="true"
+        android:padding="14dp"
+        android:hint="@string/prompt_confirm_password"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login_title"
-        android:autofillHints="Email"
-        android:inputType="textEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <com.capstone.mymentor.customs.CustomButton
-        android:id="@+id/login"
+        android:id="@+id/signup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="20dp"
         android:enabled="false"
-        android:text="@string/action_login"
-        app:layout_constraintEnd_toEndOf="@+id/password"
+        android:text="@string/action_signup"
+        app:layout_constraintEnd_toEndOf="@+id/confirm_password"
         app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
-
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/confirm_password"
+        app:layout_constraintTop_toBottomOf="@+id/confirm_password" />
 
     <TextView
-        android:id="@+id/tv_login_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="136dp"
-        android:text="@string/login_title"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="@+id/username"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/username"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_login_signup_direct"
+        android:id="@+id/tv_signup_login_direct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/login_page_sign_up_direction"
-        app:layout_constraintEnd_toEndOf="@+id/login"
+        android:text="@string/signup_page_login_direction"
+        app:layout_constraintEnd_toEndOf="@+id/signup"
         app:layout_constraintHorizontal_bias="0.368"
-        app:layout_constraintStart_toStartOf="@+id/login"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintStart_toStartOf="@+id/signup"
+        app:layout_constraintTop_toBottomOf="@+id/signup" />
 
     <TextView
-        android:id="@+id/tv_login_action_signup"
+        android:id="@+id/tv_signup_action_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="@string/action_login_page_sign_up"
+        android:text="@string/action_signup_page_login"
         android:textColor="@color/main_purple"
-        app:layout_constraintEnd_toEndOf="@+id/login"
+        app:layout_constraintEnd_toEndOf="@+id/signup"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tv_login_signup_direct"
-        app:layout_constraintTop_toTopOf="@+id/tv_login_signup_direct" />
+        app:layout_constraintStart_toEndOf="@+id/tv_signup_login_direct"
+        app:layout_constraintTop_toTopOf="@+id/tv_signup_login_direct" />
 
     <TextView
         android:id="@+id/tv_or"
@@ -109,9 +111,9 @@
         android:layout_marginTop="50dp"
         android:text="@string/or"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/tv_login_action_signup"
-        app:layout_constraintStart_toStartOf="@+id/tv_login_signup_direct"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_signup_action_login"
+        app:layout_constraintStart_toStartOf="@+id/tv_signup_login_direct"
+        app:layout_constraintTop_toBottomOf="@+id/signup" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleLogin"
@@ -135,5 +137,16 @@
         app:layout_constraintEnd_toEndOf="@+id/tv_or"
         app:layout_constraintStart_toStartOf="@+id/tv_or"
         app:layout_constraintTop_toBottomOf="@+id/tv_or" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
