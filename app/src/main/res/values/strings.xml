@@ -62,4 +62,14 @@
     <string name="prompt_confirm_password">Confirm Password</string>
     <string name="signup_page_login_direction">Already have an account?</string>
     <string name="action_signup_page_login">Login</string>
+    <string name="onboarding_desc_1">Connect with experienced mentors to grow your startup or business. Unlock the power of mentorship for success!</string>
+    <string name="onboaring_title1">Welcome to My Mentor!</string>
+    <string name="banner_1">Banner 1</string>
+    <string name="start_growing">Start Growing!</string>
+    <string name="banner_2">Banner 2</string>
+    <string name="onboarding_title_2">Connect With Our Mentors!</string>
+    <string name="onboarding_desc_2">Discover industry experts who align with your goals. Connect with the perfect mentor for your personalized guidance.</string>
+    <string name="banner_3">Banner 3</string>
+    <string name="onboarding_title_3">Accelerate Your Journey!</string>
+    <string name="onboarding_desc_3">Tap into your full potential with My Mentor! Start your journey with us!</string>
 </resources>
