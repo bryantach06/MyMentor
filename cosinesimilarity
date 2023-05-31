@@ -1,0 +1,703 @@
+!pip install gspread
+!pip install pandas
+Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
+Requirement already satisfied: gspread in /usr/local/lib/python3.10/dist-packages (3.4.2)
+Requirement already satisfied: requests>=2.2.1 in /usr/local/lib/python3.10/dist-packages (from gspread) (2.27.1)
+Requirement already satisfied: google-auth in /usr/local/lib/python3.10/dist-packages (from gspread) (2.17.3)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests>=2.2.1->gspread) (1.26.15)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests>=2.2.1->gspread) (2022.12.7)
+Requirement already satisfied: charset-normalizer~=2.0.0 in /usr/local/lib/python3.10/dist-packages (from requests>=2.2.1->gspread) (2.0.12)
+Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.10/dist-packages (from requests>=2.2.1->gspread) (3.4)
+Requirement already satisfied: cachetools<6.0,>=2.0.0 in /usr/local/lib/python3.10/dist-packages (from google-auth->gspread) (5.3.0)
+Requirement already satisfied: pyasn1-modules>=0.2.1 in /usr/local/lib/python3.10/dist-packages (from google-auth->gspread) (0.3.0)
+Requirement already satisfied: six>=1.9.0 in /usr/local/lib/python3.10/dist-packages (from google-auth->gspread) (1.16.0)
+Requirement already satisfied: rsa<5,>=3.1.4 in /usr/local/lib/python3.10/dist-packages (from google-auth->gspread) (4.9)
+Requirement already satisfied: pyasn1<0.6.0,>=0.4.6 in /usr/local/lib/python3.10/dist-packages (from pyasn1-modules>=0.2.1->google-auth->gspread) (0.5.0)
+Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
+Requirement already satisfied: pandas in /usr/local/lib/python3.10/dist-packages (1.5.3)
+Requirement already satisfied: python-dateutil>=2.8.1 in /usr/local/lib/python3.10/dist-packages (from pandas) (2.8.2)
+Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.10/dist-packages (from pandas) (2022.7.1)
+Requirement already satisfied: numpy>=1.21.0 in /usr/local/lib/python3.10/dist-packages (from pandas) (1.22.4)
+Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.10/dist-packages (from python-dateutil>=2.8.1->pandas) (1.16.0)
+from google.colab import drive, auth
+from google.auth import default
+import gspread as gd
+import pandas as pd
+drive.mount ('/content/drive')
+auth.authenticate_user()
+
+creds,_ = default()
+
+gc = gd.authorize(creds)
+Mounted at /content/drive
+data_mentor = gc.open('DATA_MYMENTOR').worksheet("Mentor")
+data_mentee = gc.open('DATA_MYMENTOR').worksheet("Mentee")
+data_mentee_topic_choices = gc.open('DATA_MYMENTOR').worksheet("Topic_Choices")
+data1 = data_mentor.get_all_values()
+mentor = pd.DataFrame(data1)
+mentor = mentor.shift(-1)
+mentor.columns = ['Name','Latest Education','Educational Background','Experience','Work Position','Role','Rating','Profile Views']
+mentor = mentor.iloc[:-1]
+display(mentor)
+                   Name Latest Education           Educational Background  \
+0          Budi Sumarto               S1            Industrial Technology   
+1    Dian Sastrowardoyo               S2            Industrial Technology   
+2            Joko Anwar               S3                Civil Engineering   
+3          Agnes Monica               D3           Information Technology   
+4        Raisa Andriana               S1                Civil Engineering   
+..                  ...              ...                              ...   
+295        Dewi Nugraha               D3                     Digital Arts   
+296           Dini Dewi               D4    Industrial and product Design   
+297        Dicky Wijaya               S1  Commercial and Advertising Arts   
+298       Dinda Susanto               S2      Visual Communication Design   
+299         Dian Wibowo               S1                     Digital Arts   
+
+     Experience                 Work Position     Role Rating Profile Views  
+0     >10 years             Software Engineer   Hacker    4.7          9228  
+1    5-10 years           Front End Developer   Hacker    4.8         10170  
+2      <5 years        Database Administrator   Hacker    4.9          9407  
+3    5-10 years                 Web Developer   Hacker    4.2          9446  
+4     >10 years  Information Security Analyst   Hacker    3.9         15107  
+..          ...                           ...      ...    ...           ...  
+295    <5 years            Digital Strategist  Hipster    4.1          8353  
+296   >10 years              Graphic Designer  Hipster    4.6          7076  
+297    <5 years            Digital Strategist  Hipster    4.6          9526  
+298    <5 years              Graphic Designer  Hipster    3.9          5469  
+299  5-10 years                  Art Director  Hipster    4.8         10771  
+
+[300 rows x 8 columns]
+data2 = data_mentee.get_all_values()
+mentee = pd.DataFrame(data2)
+mentee = mentee.shift(-1)
+mentee.columns = ['Name','Latest Education','Educational Background','Role','Topic 1','Topic 2', 'Topic 3','Rating']
+mentee = mentee.iloc[:-1]
+display(mentee)
+                                Name Latest Education  \
+0                      Bachrul Uluum               D3   
+1                Ihlasul Mufti Faqih               S1   
+2            Raditya Widi Indarsanto              SMA   
+3    Benneth Sinto Briliant Siburian               D4   
+4           I Gusti Bagus Ardavendra               D3   
+..                               ...              ...   
+295                      Nabila Dewi               D4   
+296                   Nadia Prasetyo               D3   
+297                    Nathan Wijaya              SMA   
+298                      Nia Santoso               S1   
+299                    Nanda Permata               D4   
+
+              Educational Background     Role             Topic 1  \
+0                  Civil Engineering   Hacker       Web Developer   
+1             Information Technology   Hacker      Data Scientist   
+2                    Science Studies   Hacker      Data Scientist   
+3              Industrial Technology   Hacker   Software Engineer   
+4             Information Technology   Hacker       AI Specialist   
+..                               ...      ...                 ...   
+295    Industrial and product Design  Hipster  Digital Strategist   
+296  Commercial and Advertising Arts  Hipster    Graphic Designer   
+297                  Science Studies  Hipster        Art Director   
+298      Visual Communication Design  Hipster        Art Director   
+299    Industrial and product Design  Hipster    Creative Officer   
+
+                            Topic 2                         Topic 3  \
+0    Computer Networking Specialist          Database Administrator   
+1                Back End Developer            Full Stack Developer   
+2                 Software Engineer                   AI Specialist   
+3                     AI Specialist             Front End Developer   
+4                Back End Developer  Computer Networking Specialist   
+..                              ...                             ...   
+295                Creative Officer              Digital Strategist   
+296                    Art Director                Creative Officer   
+297                Graphic Designer                  UI/UX Designer   
+298                  UI/UX Designer                Graphic Designer   
+299                    Art Director                Graphic Designer   
+
+          Rating  
+0    4.166666667  
+1            3.9  
+2            4.5  
+3            3.8  
+4            4.3  
+..           ...  
+295  4.333333333  
+296          4.5  
+297          4.2  
+298          3.7  
+299  4.633333333  
+
+[300 rows x 8 columns]
+Preprocessing Data Mentor
+mentor['Preferensi'] = mentor[['Latest Education','Educational Background', 'Experience', 'Work Position', 'Role']].apply(lambda x: ', '.join(x.dropna().astype(str)), axis=1)
+dfdata_mentor = mentor[['Name','Preferensi','Rating']]
+dfdata_mentor
+                   Name                                         Preferensi  \
+0          Budi Sumarto  S1, Industrial Technology, >10 years, Software...   
+1    Dian Sastrowardoyo  S2, Industrial Technology, 5-10 years, Front E...   
+2            Joko Anwar  S3, Civil Engineering, <5 years, Database Admi...   
+3          Agnes Monica  D3, Information Technology, 5-10 years, Web De...   
+4        Raisa Andriana  S1, Civil Engineering, >10 years, Information ...   
+..                  ...                                                ...   
+295        Dewi Nugraha  D3, Digital Arts, <5 years, Digital Strategist...   
+296           Dini Dewi  D4, Industrial and product Design, >10 years, ...   
+297        Dicky Wijaya  S1, Commercial and Advertising Arts, <5 years,...   
+298       Dinda Susanto  S2, Visual Communication Design, <5 years, Gra...   
+299         Dian Wibowo  S1, Digital Arts, 5-10 years, Art Director, Hi...   
+
+    Rating  
+0      4.7  
+1      4.8  
+2      4.9  
+3      4.2  
+4      3.9  
+..     ...  
+295    4.1  
+296    4.6  
+297    4.6  
+298    3.9  
+299    4.8  
+
+[300 rows x 3 columns]
+# List kata-kata tag
+list_tag = ["Data Analyst", "Data Engineer", "Data Scientist", "Front end Developer", "Back end Developer", "Full Stack Developer", "Web Developer", "Software Engineer", "Information Security Analyst", "AI Specialist", "Computer Networking Specialist", "Database Administrator", "Business Development", "Technopreneur", "Business Consultant", "Risk Manager", "Product Manager", "Market Researcher", "Financial Analyst", "Digital Marketing", "Entrepreneur", "Digital Business Analysis", "Operational Manager", "Retail Manager", "Executive Business", "Graphic Designer", "UI/UX designer", "Product Developer", "Art Director", "Web Designer", "Art Entrepreneur"] 
+
+# Fungsi untuk mencari kata dalam preferensi
+def cari_kata(Preferensi):
+    kata_ditemukan = []
+    Preferensi_lower = Preferensi.lower() # Mengubah preferensi menjadi huruf kecil
+    
+    for tag in list_tag:
+        tag_lower = tag.lower() # Mengubah tag menjadi huruf kecil
+        
+        if tag_lower in Preferensi_lower:
+            kata_ditemukan.append(tag)
+    
+    return kata_ditemukan
+
+# Membuat kolom tag
+dfdata_mentor['tag'] = dfdata_mentor['Preferensi'].apply(cari_kata)
+<ipython-input-8-2112c0b8ea5a>:18: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  dfdata_mentor['tag'] = dfdata_mentor['Preferensi'].apply(cari_kata)
+dfdata_mentor
+                   Name                                         Preferensi  \
+0          Budi Sumarto  S1, Industrial Technology, >10 years, Software...   
+1    Dian Sastrowardoyo  S2, Industrial Technology, 5-10 years, Front E...   
+2            Joko Anwar  S3, Civil Engineering, <5 years, Database Admi...   
+3          Agnes Monica  D3, Information Technology, 5-10 years, Web De...   
+4        Raisa Andriana  S1, Civil Engineering, >10 years, Information ...   
+..                  ...                                                ...   
+295        Dewi Nugraha  D3, Digital Arts, <5 years, Digital Strategist...   
+296           Dini Dewi  D4, Industrial and product Design, >10 years, ...   
+297        Dicky Wijaya  S1, Commercial and Advertising Arts, <5 years,...   
+298       Dinda Susanto  S2, Visual Communication Design, <5 years, Gra...   
+299         Dian Wibowo  S1, Digital Arts, 5-10 years, Art Director, Hi...   
+
+    Rating                             tag  
+0      4.7             [Software Engineer]  
+1      4.8           [Front end Developer]  
+2      4.9        [Database Administrator]  
+3      4.2                 [Web Developer]  
+4      3.9  [Information Security Analyst]  
+..     ...                             ...  
+295    4.1                              []  
+296    4.6              [Graphic Designer]  
+297    4.6                              []  
+298    3.9              [Graphic Designer]  
+299    4.8                  [Art Director]  
+
+[300 rows x 4 columns]
+from sklearn.preprocessing import MinMaxScaler
+
+# Inisialisasi MinMaxScaler
+scaler = MinMaxScaler(feature_range=(0, 1))
+
+# Mengambil nilai rating dari dataframe
+ratings = dfdata_mentor['Rating'].values.reshape(-1, 1)
+
+# Melakukan normalisasi fitur rating
+normalized_ratings = scaler.fit_transform(ratings)
+
+# Menyimpan hasil normalisasi ke dalam kolom "normalized_rating"
+dfdata_mentor['Rating'] = normalized_ratings
+
+# Tampilkan dataframe dengan fitur rating yang telah dinormalisasi
+print(dfdata_mentor)
+                   Name                                         Preferensi  \
+0          Budi Sumarto  S1, Industrial Technology, >10 years, Software...   
+1    Dian Sastrowardoyo  S2, Industrial Technology, 5-10 years, Front E...   
+2            Joko Anwar  S3, Civil Engineering, <5 years, Database Admi...   
+3          Agnes Monica  D3, Information Technology, 5-10 years, Web De...   
+4        Raisa Andriana  S1, Civil Engineering, >10 years, Information ...   
+..                  ...                                                ...   
+295        Dewi Nugraha  D3, Digital Arts, <5 years, Digital Strategist...   
+296           Dini Dewi  D4, Industrial and product Design, >10 years, ...   
+297        Dicky Wijaya  S1, Commercial and Advertising Arts, <5 years,...   
+298       Dinda Susanto  S2, Visual Communication Design, <5 years, Gra...   
+299         Dian Wibowo  S1, Digital Arts, 5-10 years, Art Director, Hi...   
+
+     Rating                             tag  
+0      0.85             [Software Engineer]  
+1      0.90           [Front end Developer]  
+2      0.95        [Database Administrator]  
+3      0.60                 [Web Developer]  
+4      0.45  [Information Security Analyst]  
+..      ...                             ...  
+295    0.55                              []  
+296    0.80              [Graphic Designer]  
+297    0.80                              []  
+298    0.45              [Graphic Designer]  
+299    0.90                  [Art Director]  
+
+[300 rows x 4 columns]
+<ipython-input-10-1334e335f651>:13: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  dfdata_mentor['Rating'] = normalized_ratings
+import nltk
+nltk.download('stopwords')
+
+nltk.download('punkt')
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
+[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt.zip.
+True
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+class Mentee:
+    def __init__(self, name, needs):
+        self.name = name
+        self.needs = needs
+
+class Mentor:
+    def __init__(self, name, expertise, rating):
+        self.name = name
+        self.expertise = expertise
+        self.rating = rating
+
+class MentoringPlatform:
+    def __init__(self):
+        self.mentees = []
+        self.mentors = []
+        self.vectorizer = TfidfVectorizer()
+
+    def add_mentee(self, mentee):
+        self.mentees.append(mentee)
+
+    def add_mentor(self, mentor):
+        self.mentors.append(mentor)
+
+    def preprocess_text(self, text):
+        stop_words = set(stopwords.words('english') + stopwords.words('indonesian'))
+        tokens = word_tokenize(text.lower())
+        filtered_tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
+        preprocessed_text = ' '.join(filtered_tokens)
+        return preprocessed_text
+
+    def fit_vectorizer(self):
+        corpus = []
+        for mentee in self.mentees:
+            corpus.append(self.preprocess_text(mentee.needs))
+        for mentor in self.mentors:
+            corpus.append(self.preprocess_text(mentor.expertise))
+        self.vectorizer.fit(corpus)
+
+    def find_mentor(self, mentee):
+        mentee_needs = self.preprocess_text(mentee.needs)
+        mentee_vector = self.vectorizer.transform([mentee_needs])
+
+        matched_mentors = []
+        for mentor in self.mentors:
+            mentor_expertise = self.preprocess_text(mentor.expertise)
+            mentor_vector = self.vectorizer.transform([mentor_expertise])
+
+            similarity_score = cosine_similarity(mentee_vector, mentor_vector)[0][0]
+            if similarity_score > 0:
+                matched_mentors.append((mentor, similarity_score))
+        matched_mentors = sorted(matched_mentors, key=lambda x: (x[1] + x[0].rating), reverse=True)
+
+        return matched_mentors
+
+# Contoh penggunaan:
+platform = MentoringPlatform()
+
+# Menambahkan mentees dan mentors ke platform
+mentee1 = Mentee("Mentee 1", "I want to looking for a mentor who experience with Web Developer")
+mentee2 = Mentee("Mentee 2", "Saya membutuhkan bimbingan dalam pengembangan Software Engineer")
+mentee3 = Mentee("Mentee 3", "Data Analyst")
+platform.add_mentee(mentee1)
+platform.add_mentee(mentee2)
+platform.add_mentee(mentee3)
+
+for index, row in dfdata_mentor.iterrows():
+    mentor_expertise = ' '.join(row['Preferensi'].split()[:10])  # Mengambil maksimal 10 kata dari mentor.expertise
+    mentor = Mentor(row['Name'], mentor_expertise, row['Rating'])
+    platform.add_mentor(mentor)
+
+# Fitting vectorizer
+platform.fit_vectorizer()
+
+# Melakukan pencocokan mentee dengan mentor
+for mentee in platform.mentees:
+    matched_mentors = platform.find_mentor(mentee)
+    if len(matched_mentors) > 0:
+        print(f"Mentee '{mentee.name}' cocok dengan mentor:")
+        for mentor, similarity_score in matched_mentors:
+            print(f"- {mentor.name} ({mentor.expertise}) - Similarity Score: {similarity_score} - Rating: {mentor.rating}")
+    else:
+        print(f"Mentee '{mentee.name}' tidak ditemukan mentor yang cocok.")
+Mentee 'Mentee 1' cocok dengan mentor:
+- Pandji Pragiwaksono (S2, Information Technology, 5-10 years, Web Developer, Hacker) - Similarity Score: 0.3108566759734002 - Rating: 0.8500000000000001
+- Vino Bastian (D3, Information Technology, >10 years, Front End Developer, Hacker) - Similarity Score: 0.07759460979632869 - Rating: 1.0
+- Sherina Munaf (S1, Information Technology, >10 years, Front End Developer, Hacker) - Similarity Score: 0.07759460979632869 - Rating: 1.0
+- Titiek Puspa (D3, Information Technology, 5-10 years, Front End Developer, Hacker) - Similarity Score: 0.07759460979632869 - Rating: 1.0
+- Nicholas Saputra (S2, Information Technology, <5 years, Web Developer, Hacker) - Similarity Score: 0.3108566759734002 - Rating: 0.75
+- Rano Karno (D4, Information Technology, <5 years, Web Developer, Hacker) - Similarity Score: 0.3108566759734002 - Rating: 0.7000000000000002
+- Budi Setiawan (S1, Digital Arts, <5 years, Product Developer, Hipster) - Similarity Score: 0.1040144212867982 - Rating: 0.8999999999999999
+- Dian Prasetyo (S1, Visual Communication Design, <5 years, Product Developer, Hipster) - Similarity Score: 0.08330165276563213 - Rating: 0.8999999999999999
+- Dian Sastrowardoyo (S2, Industrial Technology, 5-10 years, Front End Developer, Hacker) - Similarity Score: 0.07744830319324586 - Rating: 0.8999999999999999
+- Donny Alamsyah (D3, Civil Engineering, 5-10 years, Web Developer, Hacker) - Similarity Score: 0.27729422997335224 - Rating: 0.7000000000000002
+- Judika Sihotang (S2, Civil Engineering, 5-10 years, Back End Developer, Hacker) - Similarity Score: 0.07173039842715923 - Rating: 0.8999999999999999
+- Dewi Sandra (S2, Industrial Technology, >10 years, Full Stack Developer, Hacker) - Similarity Score: 0.07011652497480167 - Rating: 0.8999999999999999
+- Cahyani Dewanto (D4, Visual Communication Design, >10 years, Product Developer, Hipster) - Similarity Score: 0.08330165276563213 - Rating: 0.8500000000000001
+- Benny Panjaitan (D3, Information Technology, >10 years, Back End Developer, Hacker) - Similarity Score: 0.07871556107890573 - Rating: 0.8500000000000001
+- Tora Sudiro (S1, Information Technology, 5-10 years, Back End Developer, Hacker) - Similarity Score: 0.07871556107890573 - Rating: 0.8500000000000001
+- Penelope Cruz (S1, Information Technology, <5 years, Back End Developer, Hacker) - Similarity Score: 0.07871556107890573 - Rating: 0.8500000000000001
+- Antonio Banderas (D3, Business Statistics, >10 years, Front End Developer, Hacker) - Similarity Score: 0.07451583662143653 - Rating: 0.8500000000000001
+- Paco León (D4, Civil Engineering, >10 years, Back End Developer, Hacker) - Similarity Score: 0.07173039842715923 - Rating: 0.8500000000000001
+- Agnes Monica (D3, Information Technology, 5-10 years, Web Developer, Hacker) - Similarity Score: 0.3108566759734002 - Rating: 0.6000000000000001
+- Bunga Dewi (D4, Digital Arts, >10 years, Product Developer, Hipster) - Similarity Score: 0.1040144212867982 - Rating: 0.7999999999999998
+- Afgan Syahreza (S2, Business Statistics, >10 years, Back End Developer, Hacker) - Similarity Score: 0.07550690374909931 - Rating: 0.7999999999999998
+- Bryan Widodo (S2, Digital Arts, <5 years, Product Developer, Hipster) - Similarity Score: 0.1040144212867982 - Rating: 0.75
+- Bintang Kurniawan (S2, Visual Communication Design, 5-10 years, Product Developer, Hipster) - Similarity Score: 0.08330165276563213 - Rating: 0.75
+- Muhammad Fadil Khairunnas (D4, Digital Arts, <5 years, Product Developer, Hipster) - Similarity Score: 0.1040144212867982 - Rating: 0.7000000000000002
+- Once Mekel (D3, Industrial Technology, >10 years, Full Stack Developer, Hacker) - Similarity Score: 0.07011652497480167 - Rating: 0.7000000000000002
+- Zachranti Abianca Hafsari (S1, Commercial and Advertising Arts, <5 years, Product Developer, Hipster) - Similarity Score: 0.08319677456814467 - Rating: 0.6499999999999999
+- Elsa Pataky (D3, Information Technology, <5 years, Back End Developer, Hacker) - Similarity Score: 0.07871556107890573 - Rating: 0.6499999999999999
+- Aitana Sánchez-Gijón (D3, Business Statistics, 5-10 years, Front End Developer, Hacker) - Similarity Score: 0.07451583662143653 - Rating: 0.6499999999999999
+- Ilham Akbar (D4, Visual Communication Design, <5 years, Product Developer, Hipster) - Similarity Score: 0.08330165276563213 - Rating: 0.6000000000000001
+- Bayu Wardhana (D4, Commercial and Advertising Arts, >10 years, Product Developer, Hipster) - Similarity Score: 0.08319677456814467 - Rating: 0.6000000000000001
+- Ana de Armas (S2, Civil Engineering, >10 years, Full Stack Developer, Hacker) - Similarity Score: 0.06513048315947927 - Rating: 0.6000000000000001
+- Ashanty (S1, Information Technology, <5 years, Web Developer, Hacker) - Similarity Score: 0.3108566759734002 - Rating: 0.30000000000000004
+- Bella Susanto (S2, Digital Arts, <5 years, Product Developer, Hipster) - Similarity Score: 0.1040144212867982 - Rating: 0.5
+- Rossa Roslaina (S1, Business Statistics, >10 years, Back End Developer, Hacker) - Similarity Score: 0.07550690374909931 - Rating: 0.5
+- William Davis (S1, Information Technology, <5 years, Back End Developer, Hacker) - Similarity Score: 0.07871556107890573 - Rating: 0.44999999999999996
+- Ari Lasso (D4, Industrial Technology, 5-10 years, Back End Developer, Hacker) - Similarity Score: 0.0785628342509729 - Rating: 0.44999999999999996
+- Giring Ganesha (D4, Civil Engineering, <5 years, Front End Developer, Hacker) - Similarity Score: 0.07087909562960165 - Rating: 0.44999999999999996
+- Iwan Fals (D3, Business Statistics, >10 years, Full Stack Developer, Hacker) - Similarity Score: 0.06791826726313384 - Rating: 0.3999999999999999
+- Liza Lie (S1, Visual Communication Design, >10 years, Product Developer, Hipster) - Similarity Score: 0.08330165276563213 - Rating: 0.3500000000000001
+- Cahaya Wijaya (D3, Visual Communication Design, <5 years, Product Developer, Hipster) - Similarity Score: 0.08330165276563213 - Rating: 0.3500000000000001
+- Cinta Wijaya (S2, Industrial and product Design, <5 years, Product Developer, Hipster) - Similarity Score: 0.07797456835043874 - Rating: 0.3500000000000001
+- Lidya Kandou (S2, Information Technology, 5-10 years, Front End Developer, Hacker) - Similarity Score: 0.07759460979632869 - Rating: 0.3500000000000001
+- Jordi Mollà (S1, Industrial Technology, 5-10 years, Full Stack Developer, Hacker) - Similarity Score: 0.07011652497480167 - Rating: 0.3500000000000001
+- Raka Febrianto (S1, Visual Communication Design, 5 - 10 years, Product Developer,) - Similarity Score: 0.0872965927180258 - Rating: 0.30000000000000004
+- Ronan Fenton (S1, Industrial and product Design, <5 years, Product Developer, Hipster) - Similarity Score: 0.07797456835043874 - Rating: 0.30000000000000004
+- Bárbara Lennie (D4, Information Technology, <5 years, Web Developer, Hacker) - Similarity Score: 0.3108566759734002 - Rating: 0.0
+Mentee 'Mentee 2' cocok dengan mentor:
+- Adinia Wirasti (D4, Civil Engineering, 5-10 years, Software Engineer, Hacker) - Similarity Score: 0.33188762330851873 - Rating: 1.0
+- Zack Lee (S3, Industrial Technology, <5 years, Software Engineer, Hacker) - Similarity Score: 0.36907640153359955 - Rating: 0.8999999999999999
+- Siti Nurhaliza (S3, Business Statistics, <5 years, Software Engineer, Hacker) - Similarity Score: 0.3522325222977938 - Rating: 0.8999999999999999
+- Cecep Arif Rahman (S1, Information Technology, >10 years, Software Engineer, Hacker) - Similarity Score: 0.3699276709688145 - Rating: 0.8500000000000001
+- Budi Sumarto (S1, Industrial Technology, >10 years, Software Engineer, Hacker) - Similarity Score: 0.36907640153359955 - Rating: 0.8500000000000001
+- Yovie Widianto (S2, Industrial Technology, 5-10 years, Software Engineer, Hacker) - Similarity Score: 0.36907640153359955 - Rating: 0.8500000000000001
+- Anggun Cipta Sasmi (D4, Business Statistics, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.15758118053294926 - Rating: 1.0
+- Hannah Al Rashid (S1, Information Technology, >10 years, Data Engineer, Hacker) - Similarity Score: 0.1662242237772095 - Rating: 0.8500000000000001
+- Chrisye (S1, Industrial Technology, >10 years, Software Engineer, Hacker) - Similarity Score: 0.36907640153359955 - Rating: 0.6000000000000001
+- Richard Kyle (D3, Industrial Technology, 5-10 years, Software Engineer, Hacker) - Similarity Score: 0.36907640153359955 - Rating: 0.5
+- Indro Warkop (D3, Civil Engineering, <5 years, Software Engineer, Hacker) - Similarity Score: 0.33188762330851873 - Rating: 0.5
+- Maudy Ayunda (S2, Information Technology, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.1662242237772095 - Rating: 0.6499999999999999
+- Anang Hermansyah (S2, Business Statistics, 5-10 years, Software Engineer, Hacker) - Similarity Score: 0.3522325222977938 - Rating: 0.44999999999999996
+- Sunny Pang (D4, Civil Engineering, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.14777891435812038 - Rating: 0.6499999999999999
+- Michael Brown (S1, Business Statistics, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.15758118053294926 - Rating: 0.6000000000000001
+- David Johnson (D4, Civil Engineering, >10 years, Data Engineer, Hacker) - Similarity Score: 0.14777891435812038 - Rating: 0.5
+- Goya Toledo (S1, Information Technology, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.1662242237772095 - Rating: 0.30000000000000004
+- Arifin Putra (S1, Industrial Technology, >10 years, Data Engineer, Hacker) - Similarity Score: 0.16580579974588666 - Rating: 0.30000000000000004
+- Julie Estelle (S2, Information Technology, <5 years, Data Engineer, Hacker) - Similarity Score: 0.1662242237772095 - Rating: 0.1499999999999999
+Mentee 'Mentee 3' cocok dengan mentor:
+- Raffi Ahmad (S2, Business Statistics, >10 years, Data Analyst, Hacker) - Similarity Score: 0.7032321990624688 - Rating: 0.9500000000000002
+- Marcell Siahaan (D3, Industrial Technology, >10 years, Data Analyst, Hacker) - Similarity Score: 0.7417402471232197 - Rating: 0.7999999999999998
+- Anggun Cipta Sasmi (D4, Business Statistics, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.37544972603343185 - Rating: 1.0
+- Adipati Dolken (S1, Industrial Technology, >10 years, Data Scientist, Hacker) - Similarity Score: 0.356444597513787 - Rating: 1.0
+- Ethan Taylor (S2, Management, >10 years, Financial Analyst, Hustler) - Similarity Score: 0.3299498372295487 - Rating: 0.9500000000000002
+- Chandra Liow (D4, Information Technology, <5 years, Data Scientist, Hacker) - Similarity Score: 0.35717639850029353 - Rating: 0.8999999999999999
+- Hannah Al Rashid (S1, Information Technology, >10 years, Data Engineer, Hacker) - Similarity Score: 0.39604246564343937 - Rating: 0.8500000000000001
+- Carmen Maura (S1, Information Technology, 5-10 years, Data Analyst, Hacker) - Similarity Score: 0.7437069363640272 - Rating: 0.5
+- Verónica Echegui (S2, Civil Engineering, >10 years, Data Scientist, Hacker) - Similarity Score: 0.3239419291972291 - Rating: 0.8999999999999999
+- Jessica Wilson (D4, Industrial Technology, >10 years, Data Analyst, Hacker) - Similarity Score: 0.7417402471232197 - Rating: 0.44999999999999996
+- Mike Lewis (S1, Business Statistics, <5 years, Information Security Analyst, Hacker) - Similarity Score: 0.28583970652269586 - Rating: 0.8999999999999999
+- Sarah Lee (D3, Civil Engineering, <5 years, Data Scientist, Hacker) - Similarity Score: 0.3239419291972291 - Rating: 0.8500000000000001
+- Ernest Prakasa (D3, Information Technology, <5 years, Information Security Analyst, Hacker) - Similarity Score: 0.26413051292179146 - Rating: 0.8999999999999999
+- Joe Taslim (S2, Information Technology, 5-10 years, Information Security Analyst, Hacker) - Similarity Score: 0.26413051292179146 - Rating: 0.8999999999999999
+- Marta Etura (S1, Civil Engineering, >10 years, Information Security Analyst, Hacker) - Similarity Score: 0.270724800081781 - Rating: 0.8500000000000001
+- Yayan Ruhian (D3, Information Technology, 5-10 years, Information Security Analyst, Hacker) - Similarity Score: 0.26413051292179146 - Rating: 0.8500000000000001
+- Dani Rovira (S2, Industrial Technology, <5 years, Information Security Analyst, Hacker) - Similarity Score: 0.2981737632609212 - Rating: 0.7999999999999998
+- Jane Smith (S2, Industrial Technology, 5-10 years, Data Analyst, Hacker) - Similarity Score: 0.7417402471232197 - Rating: 0.3500000000000001
+- Endang S Taurina (S3, Business Statistics, <5 years, Information Security Analyst, Hacker) - Similarity Score: 0.28583970652269586 - Rating: 0.7999999999999998
+- Maudy Ayunda (S2, Information Technology, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.39604246564343937 - Rating: 0.6499999999999999
+- Arum Sari (S1, Accounting, 5-10 years, Financial Analyst, Hustler) - Similarity Score: 0.32313412992439633 - Rating: 0.7000000000000002
+- Sunny Pang (D4, Civil Engineering, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.3520950453704274 - Rating: 0.6499999999999999
+- Michael Brown (S1, Business Statistics, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.37544972603343185 - Rating: 0.6000000000000001
+- Robert Wilson (D4, Digital Business, >10 years, Financial Analyst, Hustler) - Similarity Score: 0.33599793228901736 - Rating: 0.6000000000000001
+- Oliver Davis (D4, Management, >10 years, Financial Analyst, Hustler) - Similarity Score: 0.3299498372295487 - Rating: 0.6000000000000001
+- Iko Uwais (S3, Information Technology, <5 years, Information Security Analyst, Hacker) - Similarity Score: 0.26413051292179146 - Rating: 0.6000000000000001
+- David Johnson (D4, Civil Engineering, >10 years, Data Engineer, Hacker) - Similarity Score: 0.3520950453704274 - Rating: 0.5
+- Kamila Nurhayati (S1, Digital Business, <5 years, Financial Analyst, Hustler) - Similarity Score: 0.33599793228901736 - Rating: 0.5
+- Aditya Putri (D3, Management, <5 years, Financial Analyst, Hustler) - Similarity Score: 0.3299498372295487 - Rating: 0.5
+- John Doe (S1, Civil Engineering, <5 years, Information Security Analyst, Hacker) - Similarity Score: 0.270724800081781 - Rating: 0.5499999999999998
+- Lisa Davis (S1, Administration Business, 5-10 years, Financial Analyst, Hustler) - Similarity Score: 0.30609723922825954 - Rating: 0.5
+- Daniel Taylor (D4, Administration Business, >10 years, Financial Analyst, Hustler) - Similarity Score: 0.30609723922825954 - Rating: 0.44999999999999996
+- Hadianto Nugroho (D3, Accounting, <5 years, Financial Analyst, Hustler) - Similarity Score: 0.32313412992439633 - Rating: 0.3999999999999999
+- Raisa Andriana (S1, Civil Engineering, >10 years, Information Security Analyst, Hacker) - Similarity Score: 0.270724800081781 - Rating: 0.44999999999999996
+- Goya Toledo (S1, Information Technology, 5-10 years, Data Engineer, Hacker) - Similarity Score: 0.39604246564343937 - Rating: 0.30000000000000004
+- Arifin Putra (S1, Industrial Technology, >10 years, Data Engineer, Hacker) - Similarity Score: 0.3950455370292822 - Rating: 0.30000000000000004
+- Ananda Pratiwi (D3, Digital Business, 5-10 years, Financial Analyst, Hustler) - Similarity Score: 0.33599793228901736 - Rating: 0.30000000000000004
+- Melly Goeslaw (D4, Civil Engineering, >10 years, Data Scientist, Hacker) - Similarity Score: 0.3239419291972291 - Rating: 0.30000000000000004
+- Rossy de Palma (S2, Civil Engineering, 5-10 years, Information Security Analyst, Hacker) - Similarity Score: 0.270724800081781 - Rating: 0.30000000000000004
+- Julie Estelle (S2, Information Technology, <5 years, Data Engineer, Hacker) - Similarity Score: 0.39604246564343937 - Rating: 0.1499999999999999
+- Ardi Nugroho (S1, Management, <5 years, Financial Analyst, Hustler) - Similarity Score: 0.3299498372295487 - Rating: 0.0
+from sklearn.model_selection import train_test_split
+dfdata_mentor_train = train_test_split( dfdata_mentor, train_size=0.80, shuffle=True, random_state=1)
+dfdata_mentor_test = train_test_split( dfdata_mentor, train_size=0.80, shuffle=True, random_state=1)
+#TESTING
+
+class Mentee:
+    def __init__(self, name, needs):
+        self.name = name
+        self.needs = needs
+
+class Mentor:
+    def __init__(self, name, expertise, rating):
+        self.name = name
+        self.expertise = expertise
+        self.rating = rating
+
+class MentoringPlatform:
+    def __init__(self):
+        self.mentees = []
+        self.mentors = []
+        self.vectorizer = TfidfVectorizer()
+
+    def add_mentee(self, mentee):
+        self.mentees.append(mentee)
+
+    def add_mentor(self, mentor):
+        self.mentors.append(mentor)
+
+    def preprocess_text(self, text):
+        stop_words = set(stopwords.words('english') + stopwords.words('indonesian'))
+        tokens = word_tokenize(text.lower())
+        filtered_tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
+        preprocessed_text = ' '.join(filtered_tokens)
+        return preprocessed_text
+
+    def fit_vectorizer(self):
+        corpus = []
+        for mentee in self.mentees:
+            corpus.append(self.preprocess_text(mentee.needs))
+        for mentor in self.mentors:
+            corpus.append(self.preprocess_text(mentor.expertise))
+        self.vectorizer.fit(corpus)
+
+    def find_mentor(self, mentee):
+        mentee_needs = self.preprocess_text(mentee.needs)
+        mentee_vector = self.vectorizer.transform([mentee_needs])
+
+        matched_mentors = []
+        for mentor in self.mentors:
+            mentor_expertise = self.preprocess_text(mentor.expertise)
+            mentor_vector = self.vectorizer.transform([mentor_expertise])
+
+            similarity_score = cosine_similarity(mentee_vector, mentor_vector)[0][0]
+            if similarity_score > 0:
+                matched_mentors.append((mentor, similarity_score))
+        matched_mentors = sorted(matched_mentors, key=lambda x: (x[1] + x[0].rating), reverse=True)
+
+        return matched_mentors
+
+# Contoh penggunaan:
+platform = MentoringPlatform()
+
+# Menambahkan mentees dan mentors ke platform
+mentee1 = Mentee("Mentee 1", "I want to looking for a mentor who experience with Web Developer")
+mentee2 = Mentee("Mentee 2", "Saya membutuhkan bimbingan dalam pengembangan Software Engineer")
+mentee3 = Mentee("Mentee 3", "Data Analyst")
+platform.add_mentee(mentee1)
+platform.add_mentee(mentee2)
+platform.add_mentee(mentee3)
+
+for index, row in dfdata_mentor_train.iterrows():
+    mentor_expertise = ' '.join(row['Preferensi'].split()[:10])  # Mengambil maksimal 10 kata dari mentor.expertise
+    mentor = Mentor(row['Name'], mentor_expertise, row['Rating'])
+    platform.add_mentor(mentor)
+
+# Fitting vectorizer
+platform.fit_vectorizer()
+
+# Melakukan pencocokan mentee dengan mentor
+for mentee in platform.mentees:
+    matched_mentors = platform.find_mentor(mentee)
+    if len(matched_mentors) > 0:
+        print(f"Mentee '{mentee.name}' cocok dengan mentor:")
+        for mentor, similarity_score in matched_mentors:
+            print(f"- {mentor.name} ({mentor.expertise}) - Similarity Score: {similarity_score} - Rating: {mentor.rating}")
+    else:
+        print(f"Mentee '{mentee.name}' tidak ditemukan mentor yang cocok.")
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-15-8c9c035a189d> in <cell line: 68>()
+     66 platform.add_mentee(mentee3)
+     67 
+---> 68 for index, row in dfdata_mentor_train.iterrows():
+     69     mentor_expertise = ' '.join(row['Preferensi'].split()[:10])  # Mengambil maksimal 10 kata dari mentor.expertise
+     70     mentor = Mentor(row['Name'], mentor_expertise, row['Rating'])
+
+AttributeError: 'list' object has no attribute 'iterrows'
+matched_count = 0
+total_mentees = len(platform.mentees)
+for mentee in platform.mentees:
+    matched_mentors = platform.find_mentor(mentee)
+    if len(matched_mentors) > 0:
+        matched_count += 1
+accuracy = matched_count / total_mentees
+print(accuracy)
+1.0
+k = 3  # Jumlah pilihan teratas yang ingin dievaluasi
+matched_count = 0
+total_mentees = len(platform.mentees)
+for mentee in platform.mentees:
+    matched_mentors = platform.find_mentor(mentee)
+    top_k_mentors = matched_mentors[:k]
+    if len(top_k_mentors) > 0:
+        if mentee in [mentor[0] for mentor in top_k_mentors]:
+            matched_count += 1
+top_k_accuracy = matched_count / total_mentees
+print(top_k_accuracy)
+0.0
+total_similarity_score = 0
+total_matches = 0
+for mentee in platform.mentees:
+    matched_mentors = platform.find_mentor(mentee)
+    if len(matched_mentors) > 0:
+        total_matches += 1
+        total_similarity_score += sum([mentor[1] for mentor in matched_mentors])
+mean_similarity_score = total_similarity_score / total_matches
+print(mean_similarity_score)
+8.56737381256765
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# ... (previous code remains the same)
+
+# Melakukan pencocokan mentee dengan mentor
+graph = nx.Graph()
+for mentee in platform.mentees:
+    matched_mentors = platform.find_mentor(mentee)
+    if len(matched_mentors) > 0:
+        for mentor, similarity_score in matched_mentors:
+            graph.add_edge(mentee.name, mentor.name)
+    else:
+        print(f"Mentee '{mentee.name}' tidak ditemukan mentor yang cocok.")
+
+# Visualisasi grafik dengan gambar yang lebih besar dan garis yang lebih panjang
+pos = nx.spring_layout(graph)
+nx.draw_networkx_nodes(graph, pos, node_color='skyblue', node_size=100)
+nx.draw_networkx_labels(graph, pos, font_size=6, font_family='sans-serif')
+nx.draw_networkx_edges(graph, pos, width=0.5)  # Mengatur lebar garis menjadi 2.0
+plt.figure(figsize=(15, 10))  # Menentukan ukuran gambar
+plt.axis('off')
+plt.show()
+
+
+result = dfdata_mentor.loc[dfdata_mentor['Name'] == 'Dini Dewi', 'Preferensi']
+# Mengatur opsi untuk mencetak semua kata pada kolom 'preferensi'
+pd.set_option('display.max_colwidth', None)
+
+# Menampilkan kolom 'preferensi' dari dataframe 'mentor'
+print(result)
+296    D4, Industrial and product Design, >10 years, Graphic Designer, Hipster
+Name: Preferensi, dtype: object
+dfdata_mentor.loc[65]
+Name                                                           Luna Maya
+Preferensi    S3, Business Statistics, 5-10 years, AI Specialist, Hacker
+Rating                                                              0.45
+tag                                                      [AI Specialist]
+Name: 65, dtype: object
+!pip install fuzzywuzzy
+Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
+Collecting fuzzywuzzy
+  Downloading fuzzywuzzy-0.18.0-py2.py3-none-any.whl (18 kB)
+Installing collected packages: fuzzywuzzy
+Successfully installed fuzzywuzzy-0.18.0
+from fuzzywuzzy import fuzz
+
+class MentoringPlatform:
+    # ...
+
+    def find_mentor(self, mentee):
+        mentee_needs = self.preprocess_text(mentee.needs)
+        mentee_vector = self.vectorizer.transform([mentee_needs])
+
+        matched_mentors = []
+        for mentor in self.mentors:
+            mentor_expertise = self.preprocess_text(mentor.expertise)
+            mentor_vector = self.vectorizer.transform([mentor_expertise])
+
+            similarity_score = cosine_similarity(mentee_vector, mentor_vector)[0][0]
+
+            # Melakukan fuzzy matching untuk menemukan kata-kata yang mirip
+            typo_ratio = fuzz.ratio(mentee_needs, mentor_expertise)
+            if similarity_score > 0 or typo_ratio >= 80:
+                matched_mentors.append((mentor, similarity_score))
+
+        matched_mentors = sorted(matched_mentors, key=lambda x: (x[1] + x[0].rating), reverse=True)
+
+        return matched_mentors
+/usr/local/lib/python3.10/dist-packages/fuzzywuzzy/fuzz.py:11: UserWarning: Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning
+  warnings.warn('Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning')
+!pip install transformers
+Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
+Collecting transformers
+  Downloading transformers-4.29.2-py3-none-any.whl (7.1 MB)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 24.0 MB/s eta 0:00:00
+ent already satisfied: filelock in /usr/local/lib/python3.10/dist-packages (from transformers) (3.12.0)
+Collecting huggingface-hub<1.0,>=0.14.1 (from transformers)
+  Downloading huggingface_hub-0.14.1-py3-none-any.whl (224 kB)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.5/224.5 kB 19.8 MB/s eta 0:00:00
+ent already satisfied: numpy>=1.17 in /usr/local/lib/python3.10/dist-packages (from transformers) (1.22.4)
+Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.10/dist-packages (from transformers) (23.1)
+Requirement already satisfied: pyyaml>=5.1 in /usr/local/lib/python3.10/dist-packages (from transformers) (6.0)
+Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.10/dist-packages (from transformers) (2022.10.31)
+Requirement already satisfied: requests in /usr/local/lib/python3.10/dist-packages (from transformers) (2.27.1)
+Collecting tokenizers!=0.11.3,<0.14,>=0.11.1 (from transformers)
+  Downloading tokenizers-0.13.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (7.8 MB)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.8/7.8 MB 54.9 MB/s eta 0:00:00
+ent already satisfied: tqdm>=4.27 in /usr/local/lib/python3.10/dist-packages (from transformers) (4.65.0)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.10/dist-packages (from huggingface-hub<1.0,>=0.14.1->transformers) (2023.4.0)
+Requirement already satisfied: typing-extensions>=3.7.4.3 in /usr/local/lib/python3.10/dist-packages (from huggingface-hub<1.0,>=0.14.1->transformers) (4.5.0)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests->transformers) (1.26.15)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests->transformers) (2022.12.7)
+Requirement already satisfied: charset-normalizer~=2.0.0 in /usr/local/lib/python3.10/dist-packages (from requests->transformers) (2.0.12)
+Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.10/dist-packages (from requests->transformers) (3.4)
+Installing collected packages: tokenizers, huggingface-hub, transformers
+Successfully installed huggingface-hub-0.14.1 tokenizers-0.13.3 transformers-4.29.2
+from transformers import pipeline
+
+
+fix_spelling = pipeline("text2text-generation",model="oliverguhr/spelling-correction-english-base")
+
+print(fix_spelling("I want to loking for a mentrr who experience with Web Develope",max_length=2048))
+{"model_id":"3317bae074b6456a9cb812433e6fdda2","version_major":2,"version_minor":0}
+{"model_id":"b0812501d6284d8996846212f314f4db","version_major":2,"version_minor":0}
+{"model_id":"57782e33d904495294d76fbe2474f41b","version_major":2,"version_minor":0}
+{"model_id":"73521efe4f8b4c9eaefe85a5324a55d9","version_major":2,"version_minor":0}
+{"model_id":"ba60bd273e3a494dad38df094618f7aa","version_major":2,"version_minor":0}
+{"model_id":"d8ef31cf0f9a42009285bd27b52eb95e","version_major":2,"version_minor":0}
+{"model_id":"b8e74db823374e289f531074ac327f9a","version_major":2,"version_minor":0}
+[{'generated_text': 'I want to look for a mentor who experience with Web development.'}]
