@@ -1,9 +1,13 @@
 package com.capstone.mymentor.ui.questions
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.capstone.mymentor.MainActivity
 import com.capstone.mymentor.R
 import com.capstone.mymentor.models.MenteePosition
 import com.capstone.mymentor.models.MentorPosition
@@ -94,6 +98,23 @@ class QuestionsViewModel : ViewModel() {
         val email = user?.email.toString()
         val firebase = FirebaseFirestore.getInstance()
         firebase.collection("User Responses").document(email).set(response)
+            .addOnSuccessListener {
+                navigateToMainActivity(context)
+            }
+            .addOnFailureListener { exception ->
+                Log.d("Questions onDonePressed: ", exception.message.toString())
+                Toast.makeText(
+                    context,
+                    "Authentication failed.",
+                    Toast.LENGTH_SHORT,
+                ).show()
+            }
+    }
+
+    private fun navigateToMainActivity(context: Context) {
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
     }
 
     private fun changeQuestion(newQuestionIndex: Int) {
