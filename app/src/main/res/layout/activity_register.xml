@@ -46,10 +46,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/custom_edittext"
-        android:padding="14dp"
+        android:fontFamily="sans-serif"
         android:hint="@string/prompt_password"
-        android:textColorHint="@color/grey"
         android:inputType="textPassword"
+        android:padding="14dp"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email" />

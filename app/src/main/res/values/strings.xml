@@ -72,4 +72,66 @@
     <string name="banner_3">Banner 3</string>
     <string name="onboarding_title_3">Accelerate Your Journey!</string>
     <string name="onboarding_desc_3">Tap into your full potential with My Mentor! Start your journey with us!</string>
+    <string name="questions">Questions</string>
+    <string name="question_description">Question Description</string>
+    <string name="questions_name">What do we call you?</string>
+    <string name="next_question">Next Question</string>
+    <string name="submit">Submit</string>
+    <string name="hacker">Hacker</string>
+    <string name="hustler">Hustler</string>
+    <string name="hipster">Hipster</string>
+    <string name="pick_personality">Pick Your Personality</string>
+    <string name="pick_role">Pick Your Role</string>
+    <string name="pick_position">Pick Your Position</string>
+    <string name="select_one">Select One</string>
+    <string name="mentee">Mentee</string>
+    <string name="mentor">Mentor</string>
+    <string name="input_experience">Input Years of Experience</string>
+
+    <!-- hacker -->
+    <string name="data_analyst">Data Analyst</string>
+    <string name="data_engineer">Data Engineer</string>
+    <string name="data_scientist">Data Scientist</string>
+    <string name="front_end_dev">Front-End Developer</string>
+    <string name="back_end_dev">Back-End Developer</string>
+    <string name="full_stack_dev">Full-Stack Developer</string>
+    <string name="web_dev">Web Developer</string>
+    <string name="software_engineer">Software Engineer</string>
+    <string name="information_security">Information Security Analyst</string>
+    <string name="ai_specialist">AI Specialist</string>
+    <string name="comp_network_specialist">Computer Networking Specialist</string>
+    <string name="database_admin">Database Administrator</string>
+    
+    <!-- hustler -->
+    <string name="business_development">Business Development</string>
+    <string name="technopreneur">Technopreneur</string>
+    <string name="business_consultant">Business Consultant</string>
+    <string name="risk_manager">Risk Manager</string>
+    <string name="product_manager">Product Manager</string>
+    <string name="market_researcher">Market Researcher</string>
+    <string name="financial_analyst">Financial Analyst</string>
+    <string name="digital_marketing">Digital Marketing</string>
+    <string name="entrepreneur">Entrepreneur</string>
+    <string name="digital_business_analyst">Digital Business Analyst</string>
+    <string name="operational_manager">Operational Manager</string>
+    <string name="retail_manager">Retail Manager</string>
+    <string name="business_executive">Business Executive</string>
+
+    <!-- hipster -->
+    <string name="graphics_designer">Graphics Designer</string>
+    <string name="uiux_designer">UI/UX Designer</string>
+    <string name="product_developer">Product Developer</string>
+    <string name="art_director">Art Director</string>
+    <string name="web_designer">Web Designer</string>
+    <string name="art_entrepreneur">Art Entrepreneur</string>
+
+    <string name="question_count">\ of %d</string>
+    <string name="done">Submit</string>
+
+    <!-- years of experience -->
+    <string name="zero_to_five">0 – 5 Years</string>
+    <string name="five_to_ten">5 – 10 Years</string>
+    <string name="ten_to_fifteen">10 – 15 Years</string>
+    <string name="more_than_fifteen">> 15 Years</string>
+
 </resources>

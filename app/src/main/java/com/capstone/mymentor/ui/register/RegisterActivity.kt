@@ -11,10 +11,10 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
-import com.capstone.mymentor.MainActivity
 import com.capstone.mymentor.R
 import com.capstone.mymentor.databinding.ActivityRegisterBinding
 import com.capstone.mymentor.ui.login.LoginActivity
+import com.capstone.mymentor.ui.questions.QuestionsActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -113,7 +113,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+            startActivity(Intent(this@RegisterActivity, QuestionsActivity::class.java))
             finish()
         }
     }
@@ -166,11 +166,13 @@ class RegisterActivity : AppCompatActivity() {
                     auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this) { task ->
                             if (task.isSuccessful) {
-                                Toast.makeText(this@RegisterActivity, "Account created successfully", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this@RegisterActivity,
+                                    "Account created successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 val user = auth.currentUser
                                 updateUI(user)
-                                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-                                startActivity(intent)
                             } else {
                                 Toast.makeText(
                                     this@RegisterActivity,
