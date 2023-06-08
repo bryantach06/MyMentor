@@ -72,6 +72,37 @@
     <string name="banner_3">Banner 3</string>
     <string name="onboarding_title_3">Accelerate Your Journey!</string>
     <string name="onboarding_desc_3">Tap into your full potential with My Mentor! Start your journey with us!</string>
+    <string name="title_home">Home</string>
+    <string name="title_feeds">Feeds</string>
+    <string name="title_chat">Chats</string>
+    <string name="title_events">Events</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_welcome">Welcome,</string>
+    <string name="home_recommended_mentors">Here are the mentors we recommended:</string>
+    <string name="dummy_mentee_name">Emily Jones</string>
+
+    <string-array name="dummy_mentor_name">
+        <item>Esther Howard</item>
+        <item>John Doe</item>
+        <item>Sarah Anne</item>
+        <item>Eric Yates</item>
+    </string-array>
+
+    <string-array name="dummy_mentor_position">
+        <item>Business Analyst</item>
+        <item>Operations Manager</item>
+        <item>Front End Developer</item>
+        <item>UI/UX Designer</item>
+    </string-array>
+
+    <string-array name="dummy_mentor_workplace">
+        <item>Gojek</item>
+        <item>Tokopedia</item>
+        <item>Shopee</item>
+        <item>Grab</item>
+    </string-array>
     <string name="questions">Questions</string>
     <string name="question_description">Question Description</string>
     <string name="questions_name">What do we call you?</string>
@@ -101,7 +132,7 @@
     <string name="ai_specialist">AI Specialist</string>
     <string name="comp_network_specialist">Computer Networking Specialist</string>
     <string name="database_admin">Database Administrator</string>
-    
+
     <!-- hustler -->
     <string name="business_development">Business Development</string>
     <string name="technopreneur">Technopreneur</string>
