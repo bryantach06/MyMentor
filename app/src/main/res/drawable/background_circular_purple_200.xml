@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/disabled_button_purple" /> <!-- Background color -->
+    <corners android:radius="250dp" /> <!-- Border radius (adjust the value as needed) -->
+</shape>

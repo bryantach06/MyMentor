@@ -165,4 +165,19 @@
     <string name="ten_to_fifteen">10 – 15 Years</string>
     <string name="more_than_fifteen">> 15 Years</string>
 
+    <string-array name="dummy_feeds_caption">
+        <item>Tips and Trick on How to Build a Successful Business</item>
+        <item>Startup 101</item>
+        <item>Budgeting for Dummies</item>
+        <item>How to Lead a Successful Team</item>
+    </string-array>
+
+    <string-array name="dummy_chat_name">
+        <item>John Doe</item>
+    </string-array>
+
+    <string-array name="dummy_chat_message">
+        <item>How are you doing?</item>
+    </string-array>
+
 </resources>

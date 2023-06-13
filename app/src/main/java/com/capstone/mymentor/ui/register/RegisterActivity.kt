@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 class RegisterActivity : AppCompatActivity() {
@@ -30,6 +31,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,16 +116,18 @@ class RegisterActivity : AppCompatActivity() {
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
             startActivity(Intent(this@RegisterActivity, QuestionsActivity::class.java))
-            finish()
+//            finish()
         }
     }
 
     private fun setMyButtonEnable() {
+        val name = binding.name.text
         val email = binding.email.text
         val password = binding.password.text
         val confirmPassword = binding.confirmPassword.text
         binding.signup.isEnabled =
-            email != null && password != null && confirmPassword != null && email.toString()
+            name != null && email != null && password != null && confirmPassword != null && name.toString()
+                .isNotEmpty() && email.toString()
                 .isNotEmpty() && password.toString()
                 .isNotEmpty() && confirmPassword.toString().isNotEmpty()
     }
@@ -131,6 +135,10 @@ class RegisterActivity : AppCompatActivity() {
     private fun setupAction() {
         val password = binding.password
         val confirmPassword = binding.confirmPassword
+
+        binding.name.addTextChangedListener {
+            setMyButtonEnable()
+        }
 
         binding.email.addTextChangedListener {
             setMyButtonEnable()
@@ -158,10 +166,12 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.email.text.toString()
             val password = binding.password.text.toString()
             val confirmPassword = binding.confirmPassword.text.toString()
+            val name = binding.name.text.toString()
             when {
                 password != confirmPassword -> {
                     binding.confirmPassword.error = "Password do not match!"
                 }
+
                 else -> {
                     auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this) { task ->
@@ -172,6 +182,9 @@ class RegisterActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 val user = auth.currentUser
+                                user?.let {
+                                    saveUserNameToFirestore(user.uid, name)
+                                }
                                 updateUI(user)
                             } else {
                                 Toast.makeText(
@@ -186,6 +199,26 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun saveUserNameToFirestore(userId: String?, name: String) {
+        userId?.let {
+            db = FirebaseFirestore.getInstance()
+            val userRef = db.collection("users").document(userId)
+
+            val userData = hashMapOf(
+                "Name" to name
+            )
+
+            userRef.set(userData)
+                .addOnSuccessListener {
+                    // Successful save
+                }
+                .addOnFailureListener { e ->
+                    // Handle error
+                }
+        }
+    }
+
 
     companion object {
         private const val TAG = "RegisterActivity"

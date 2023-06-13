@@ -13,4 +13,5 @@
     <color name="disabled_button_purple">#BB92CD</color>
     <color name="edittext_light_purple">#F5E0FF</color>
     <color name="main_pink">#FA8886</color>
+    <color name="colorGray">#dedede</color>
 </resources>
