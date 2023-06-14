@@ -76,33 +76,73 @@
     <string name="title_feeds">Feeds</string>
     <string name="title_chat">Chats</string>
     <string name="title_events">Events</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="experiences_tab">Experiences</string>
+    <string name="posts_tab">Posts</string>
+    <string name="chat_now_button">Chat Now</string>
     <string name="home_welcome">Welcome,</string>
-    <string name="home_recommended_mentors">Here are the mentors we recommended:</string>
+    <string name="home_recommended_mentors">Here are the mentors we recommend:</string>
     <string name="dummy_mentee_name">Emily Jones</string>
 
+    <!--    dummy mentor data-->
     <string-array name="dummy_mentor_name">
         <item>Esther Howard</item>
         <item>John Doe</item>
         <item>Sarah Anne</item>
         <item>Eric Yates</item>
     </string-array>
-
     <string-array name="dummy_mentor_position">
         <item>Business Analyst</item>
         <item>Operations Manager</item>
         <item>Front End Developer</item>
         <item>UI/UX Designer</item>
     </string-array>
-
     <string-array name="dummy_mentor_workplace">
         <item>Gojek</item>
         <item>Tokopedia</item>
         <item>Shopee</item>
         <item>Grab</item>
     </string-array>
+
+    <!--    dummy experiences data-->
+    <string-array name="dummy_position">
+        <item>Full Stack Developer</item>
+        <item>UX Researcher</item>
+        <item>Graphic Designer</item>
+        <item>Operations Manager</item>
+    </string-array>
+    <string-array name="dummy_place">
+        <item>Google</item>
+        <item>Shopee</item>
+        <item>Gojek</item>
+        <item>Bank Central Asia</item>
+    </string-array>
+    <string-array name="dummy_start_date">
+        <item>June 2020</item>
+        <item>August 2018</item>
+        <item>July 2014</item>
+        <item>September 2012</item>
+    </string-array>
+    <string-array name="dummy_end_date">
+        <item>Now</item>
+        <item>April 2020</item>
+        <item>May 2018</item>
+        <item>March 2014</item>
+    </string-array>
+    <string-array name="dummy_logo">
+        <item>https://w7.pngwing.com/pngs/326/85/png-transparent-google-logo-google-text-trademark-logo.png</item>
+        <item>https://w7.pngwing.com/pngs/650/828/png-transparent-shopee-logo-thumbnail.png</item>
+        <item>https://static-00.iconduck.com/assets.00/gojek-icon-512x512-dyy6mlv4.png</item>
+        <item>https://1.bp.blogspot.com/-ghcXZfSaQBI/X6I02Zg-NfI/AAAAAAAAHaY/OxF9Klx83zQGKNETJ9qEnZCCmjsJ1DifQCLcBGAsYHQ/w640-h640/logo%2Bbank%2Bbca-01.png</item>
+    </string-array>
+
+    <string-array name="test">
+        <item>aaa</item>
+        <item>bbb</item>
+        <item>ccc</item>
+        <item>ddd</item>
+        <item>eee</item>
+    </string-array>
+
     <string name="questions">Questions</string>
     <string name="question_description">Question Description</string>
     <string name="questions_name">What do we call you?</string>
@@ -164,6 +204,7 @@
     <string name="five_to_ten">5 – 10 Years</string>
     <string name="ten_to_fifteen">10 – 15 Years</string>
     <string name="more_than_fifteen">> 15 Years</string>
+    <string name="dash">-</string>
 
     <string-array name="dummy_feeds_caption">
         <item>Tips and Trick on How to Build a Successful Business</item>

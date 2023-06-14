@@ -15,6 +15,7 @@ import com.capstone.mymentor.MainActivity
 import com.capstone.mymentor.databinding.ActivityLoginBinding
 import com.capstone.mymentor.R
 import com.capstone.mymentor.customs.MyEditText
+import com.capstone.mymentor.ui.questions.QuestionsActivity
 import com.capstone.mymentor.ui.register.RegisterActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -110,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(Intent(this@LoginActivity, QuestionsActivity::class.java))
             finish()
         }
     }

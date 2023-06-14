@@ -1,11 +1,12 @@
 package com.capstone.mymentor.adapter
 
-import android.graphics.Color
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.mymentor.DummyMentors
+import com.capstone.mymentor.models.DummyMentors
 import com.capstone.mymentor.databinding.ItemRowMentorBinding
+import com.capstone.mymentor.ui.mentorprofile.MentorProfileActivity
 
 class RecommendedMentorsAdapter(val listDummyMentors: ArrayList<DummyMentors>) : RecyclerView.Adapter<RecommendedMentorsAdapter.ListViewHolder>() {
     class ListViewHolder(var binding: ItemRowMentorBinding) : RecyclerView.ViewHolder(binding.root)
@@ -27,10 +28,16 @@ class RecommendedMentorsAdapter(val listDummyMentors: ArrayList<DummyMentors>) :
 //            .load(photo)
 //            .into(holder.binding.ivMentor)
 
-        if (position % 2 == 0) {
-            holder.binding.cardView.setCardBackgroundColor(Color.parseColor("#4D2C5C"))
-        } else {
-            holder.binding.cardView.setCardBackgroundColor(Color.parseColor("#FA8886"))
+//        if (position % 2 == 0) {
+//            holder.binding.cardView.setCardBackgroundColor(Color.parseColor("#4D2C5C"))
+//        } else {
+//            holder.binding.cardView.setCardBackgroundColor(Color.parseColor("#FFBD5C"))
+//        }
+
+        holder.binding.cardView.setOnClickListener{
+            val intentMentorProfile = Intent(holder.binding.cardView.context, MentorProfileActivity::class.java)
+            intentMentorProfile.putExtra("key_mentors", listDummyMentors[holder.adapterPosition])
+            holder.binding.cardView.context.startActivity(intentMentorProfile)
         }
     }
 

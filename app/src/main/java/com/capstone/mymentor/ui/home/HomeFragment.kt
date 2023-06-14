@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.mymentor.DummyMentors
+import com.capstone.mymentor.models.DummyMentors
 import com.capstone.mymentor.R
 import com.capstone.mymentor.adapter.RecommendedMentorsAdapter
 import com.capstone.mymentor.databinding.FragmentHomeBinding
