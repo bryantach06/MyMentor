@@ -27,6 +27,10 @@ class MentorProfileActivity : AppCompatActivity() {
         binding = ActivityMentorProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         @Suppress("DEPRECATION")
         val dummyMentors = intent.getParcelableExtra<DummyMentors>("key_mentors") as DummyMentors
         if (dummyMentors != null) {
@@ -62,10 +66,10 @@ class MentorProfileActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = null
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.hide()
+//        setSupportActionBar(binding.toolbar)
+//        supportActionBar?.title = null
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.hide()
     }
 
     companion object {

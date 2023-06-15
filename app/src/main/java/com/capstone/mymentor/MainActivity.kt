@@ -1,23 +1,17 @@
 package com.capstone.mymentor
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.Window
+import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.capstone.mymentor.databinding.ActivityMainBinding
-import com.capstone.mymentor.ui.login.LoginActivity
 import com.capstone.mymentor.ui.onboarding.WelcomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,18 +37,11 @@ class MainActivity : AppCompatActivity() {
             firestore.collection("users").document(userId).get()
                 .addOnSuccessListener { userSnapshot ->
                     if (userSnapshot.exists()) {
-                        val token = userSnapshot.getString("token")
+                        val token = userSnapshot.getString("Token")
                         if (token != null) {
                             // Session data is available, user is still logged in
                             // Proceed with the normal flow
                             setupView()
-                            //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//            window.navigationBarColor = ContextCompat.getColor(this, R.color.main_purple)
-//        }
-
-
-//        val toolbar: Toolbar = findViewById(R.id.toolbar)
-//        setSupportActionBar(toolbar)
 
                             val navView: BottomNavigationView = binding.navView
                             navView.itemIconTintList = null
@@ -62,25 +49,16 @@ class MainActivity : AppCompatActivity() {
 
                             val navController =
                                 findNavController(R.id.nav_host_fragment_activity_main)
-                            // Passing each menu ID as a set of Ids because each
-                            // menu should be considered as top level destinations.
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_home,
-//                R.id.navigation_feeds,
-//                R.id.navigation_chat,
-//                R.id.navigation_events
-//            )
-//        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
                             navView.setupWithNavController(navController)
                         } else {
                             // Session data is not available, redirect to LoginActivity
+                            Log.d("Main Activity", "Session Data Unavailable")
                             startActivity(Intent(this, WelcomeActivity::class.java))
                             finish()
                         }
                     } else {
                         // User document does not exist, redirect to LoginActivity
+                        Log.d("Main Activity", "User Doc doesn't Exist")
                         startActivity(Intent(this, WelcomeActivity::class.java))
                         finish()
                     }

@@ -164,9 +164,9 @@ class AddPostActivity : AppCompatActivity() {
                     .set(postData)
                     .addOnSuccessListener {
                         AlertDialog.Builder(this@AddPostActivity).apply {
-                            setTitle("Post")
-                            setMessage("Upload berhasil!")
-                            setPositiveButton("Kembali ke Home") { _, _ ->
+                            setTitle("Feature Under Development!")
+                            setMessage("Post Story feature will be available upon further development!\nYour post data is currently stored, but is yet to be displayed. We appreciate your patience to wait for this feature development!")
+                            setPositiveButton("Back to Home") { _, _ ->
                                 val intent = Intent(this@AddPostActivity, MainActivity::class.java)
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -216,7 +216,6 @@ class AddPostActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val selectedImg = result.data?.data as Uri
             selectedImg.let { uri ->
-                val myFile = uriToFile(uri, this@AddPostActivity)
                 binding.ivAddStory.setImageURI(uri)
             }
         }

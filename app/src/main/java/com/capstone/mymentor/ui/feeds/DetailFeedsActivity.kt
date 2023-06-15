@@ -1,11 +1,9 @@
 package com.capstone.mymentor.ui.feeds
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.capstone.mymentor.DummyFeeds
@@ -42,9 +40,9 @@ class DetailFeedsActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-        val bottomNavigationBarHeight = getNavigationBarHeight(this)
-        val rootView = findViewById<View>(android.R.id.content)
-        rootView.setPadding(0, 0, 0, bottomNavigationBarHeight)
+//        val bottomNavigationBarHeight = getNavigationBarHeight(this)
+//        val rootView = findViewById<View>(android.R.id.content)
+//        rootView.setPadding(0, 0, 0, bottomNavigationBarHeight)
         supportActionBar?.hide()
         val detail = intent.getParcelableExtra<DummyFeeds>(EXTRA_NAME)
         binding.apply {
@@ -53,14 +51,13 @@ class DetailFeedsActivity : AppCompatActivity() {
         }
     }
 
-    private fun getNavigationBarHeight(context: Context): Int {
-        val resources = context.resources
-        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-        return if (resourceId > 0) {
-            resources.getDimensionPixelSize(resourceId)
-        } else {
-            0
-        }
-    }
-
+//    private fun getNavigationBarHeight(context: Context): Int {
+//        val resources = context.resources
+//        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+//        return if (resourceId > 0) {
+//            resources.getDimensionPixelSize(resourceId)
+//        } else {
+//            0
+//        }
+//    }
 }

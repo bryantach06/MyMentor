@@ -28,6 +28,10 @@ class MenteeProfileActivity : AppCompatActivity() {
         binding = ActivityMenteeProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         auth = FirebaseAuth.getInstance()
 
         binding.btnLogout.setOnClickListener {
@@ -106,8 +110,10 @@ class MenteeProfileActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = null
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.hide()
+
+//        setSupportActionBar(binding.toolbar)
+//        supportActionBar?.title = null
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 }

@@ -195,6 +195,7 @@ class RegisterActivity : AppCompatActivity() {
                                 updateUI(null)
                             }
                         }
+                    auth.signInWithEmailAndPassword(email, password)
                 }
             }
         }
