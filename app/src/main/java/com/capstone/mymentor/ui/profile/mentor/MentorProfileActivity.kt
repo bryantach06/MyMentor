@@ -1,4 +1,4 @@
-package com.capstone.mymentor.ui.mentorprofile
+package com.capstone.mymentor.ui.profile.mentor
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity

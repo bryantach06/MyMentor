@@ -45,4 +45,10 @@
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
+
+    <style name="light_toolbar">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
 </resources>
