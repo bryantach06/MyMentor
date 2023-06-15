@@ -278,4 +278,11 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string-array name="dummy_topic">
+        <item>Business and Management</item>
+        <item>Business and Management</item>
+        <item>Informations Technology</item>
+        <item>UI/UX Design</item>
+    </string-array>
+
 </resources>
