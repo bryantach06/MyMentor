@@ -1,4 +1,4 @@
-package com.capstone.mymentor.ui.mentorprofile.experiences
+package com.capstone.mymentor.ui.profile.mentor.experiences
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

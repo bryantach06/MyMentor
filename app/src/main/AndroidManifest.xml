@@ -37,9 +37,15 @@
         android:theme="@style/Theme.MyMentor"
         tools:targetApi="31">
         <activity
-            android:name=".ui.mentorprofile.MentorProfileActivity"
+            android:name=".ui.profile.mentee.MenteeProfileActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity
+            android:name=".ui.profile.mentor.MentorProfileActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ui.chat.DetailChatActivity"
             android:exported="false" />
@@ -57,7 +63,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.MyMentor">
+            android:theme="@style/Theme.MyMentor" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,11 +76,6 @@
         <activity
             android:name=".ui.onboarding.WelcomeActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.register.RegisterActivity"

@@ -3,8 +3,8 @@ package com.capstone.mymentor.adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.capstone.mymentor.ui.mentorprofile.experiences.ExperiencesFragment
-import com.capstone.mymentor.ui.mentorprofile.posts.PostsFragment
+import com.capstone.mymentor.ui.profile.mentor.experiences.ExperiencesFragment
+import com.capstone.mymentor.ui.profile.mentor.posts.PostsFragment
 
 class SectionsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {

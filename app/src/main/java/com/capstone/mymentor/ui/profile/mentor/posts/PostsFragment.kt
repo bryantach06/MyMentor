@@ -1,4 +1,4 @@
-package com.capstone.mymentor.ui.mentorprofile.posts
+package com.capstone.mymentor.ui.profile.mentor.posts
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

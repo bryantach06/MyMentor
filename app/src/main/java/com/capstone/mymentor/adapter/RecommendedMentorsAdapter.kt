@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.mymentor.models.DummyMentors
 import com.capstone.mymentor.databinding.ItemRowMentorBinding
-import com.capstone.mymentor.ui.mentorprofile.MentorProfileActivity
+import com.capstone.mymentor.ui.profile.mentor.MentorProfileActivity
 
 class RecommendedMentorsAdapter(val listDummyMentors: ArrayList<DummyMentors>) : RecyclerView.Adapter<RecommendedMentorsAdapter.ListViewHolder>() {
     class ListViewHolder(var binding: ItemRowMentorBinding) : RecyclerView.ViewHolder(binding.root)
