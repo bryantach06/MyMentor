@@ -5,56 +5,85 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.capstone.mymentor.DummyEvents
 import com.capstone.mymentor.R
+import com.capstone.mymentor.adapter.EventsAdapter
+import com.capstone.mymentor.databinding.FragmentEventsBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EventsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EventsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentEventsBinding? = null
+    private lateinit var rvEvents: RecyclerView
+    private val listEvents = ArrayList<DummyEvents>()
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_events, container, false)
+    ): View {
+        _binding = FragmentEventsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EventsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EventsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+
+        _binding?.let { binding ->
+            rvEvents = binding.rvEvents
+            rvEvents.setHasFixedSize(true)
+        }
+
+        getListDummyEvents()
+        showRecyclerList()
+
+        binding.fabCalendar.setOnClickListener {
+            AlertDialog.Builder(requireContext()).apply {
+                setTitle("Feature under development!")
+                setMessage("Events Calendar feature will be available upon future development!")
+                setPositiveButton("Close", null)
+                create()
+                show()
             }
+        }
+
     }
+
+    private fun getListDummyEvents(): ArrayList<DummyEvents> {
+        val dummyEventsTitle = resources.getStringArray(R.array.dummy_feeds_caption)
+        val dummyEventsLocation = resources.getStringArray(R.array.dummy_events_location)
+        val dummyEventsTime = resources.getStringArray(R.array.dummy_events_time)
+        val dummyEventsPrice = resources.getStringArray(R.array.dummy_events_price)
+        val dummyEventsDate = resources.getStringArray(R.array.dummy_events_date)
+        val dummyEventsSpeaker = resources.getStringArray(R.array.dummy_events_speaker)
+        for (i in dummyEventsTitle.indices) {
+            val dummyEvents = DummyEvents(
+                dummyEventsTitle[i],
+                dummyEventsLocation[i],
+                dummyEventsTime[i],
+                dummyEventsPrice[i],
+                dummyEventsDate[i],
+                dummyEventsSpeaker[i],
+            )
+            listEvents.add(dummyEvents)
+        }
+        return listEvents
+    }
+
+    private fun showRecyclerList() {
+        rvEvents.layoutManager = LinearLayoutManager(requireContext())
+        val eventsAdapter = EventsAdapter(listEvents)
+        rvEvents.adapter = eventsAdapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

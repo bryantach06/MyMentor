@@ -206,7 +206,8 @@ class RegisterActivity : AppCompatActivity() {
             val userRef = db.collection("users").document(userId)
 
             val userData = hashMapOf(
-                "Name" to name
+                "Name" to name,
+                "Token" to userId // Example: Use the UID as the session token
             )
 
             userRef.set(userData)
@@ -215,10 +216,14 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener { e ->
                     // Handle error
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        "Failed to save session data",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         }
     }
-
 
     companion object {
         private const val TAG = "RegisterActivity"

@@ -207,10 +207,10 @@
     <string name="dash">-</string>
 
     <string-array name="dummy_feeds_caption">
-        <item>Tips and Trick on How to Build a Successful Business</item>
+        <item>Tips and Trick on How to Build a Sustaining Business</item>
         <item>Startup 101</item>
-        <item>Budgeting for Dummies</item>
-        <item>How to Lead a Successful Team</item>
+        <item>Front-end Development for Dummies</item>
+        <item>Design Thinking for Designers</item>
     </string-array>
 
     <string-array name="dummy_chat_name">
@@ -220,5 +220,50 @@
     <string-array name="dummy_chat_message">
         <item>How are you doing?</item>
     </string-array>
+
+    <string-array name="dummy_events_location">
+        <item>Bandung Convention Center Main Hall</item>
+        <item>Zoom Webinar</item>
+        <item>Harris Hotel Ballroom Ciumbuleuit, Bandung</item>
+        <item>Zoom Webinar</item>
+    </string-array>
+
+    <string-array name="dummy_events_time">
+        <item>7.00 PM GMT +7</item>
+        <item>10.00 AM GMT +7</item>
+        <item>3.00 PM GMT +7</item>
+        <item>3.00 PM GMT +7</item>
+    </string-array>
+
+    <string-array name="dummy_events_date">
+        <item>JUN 17</item>
+        <item>JUN 24</item>
+        <item>JUL 1</item>
+        <item>JUL 8</item>
+    </string-array>
+
+    <string-array name="dummy_events_speaker">
+        <item>Esther Howard, Business Analyst at Gojek</item>
+        <item>John Doe, Operations Manager at Tokopedia</item>
+        <item>Sarah Anne, Front End Developer at Shopee</item>
+        <item>Eric Yates, UI/UX Designer at Grab</item>
+    </string-array>
+
+    <string-array name="dummy_events_certificate">
+        <item>*Free E-Certificate</item>
+        <item>*Free E-Certificate Upon Request</item>
+        <item>*Free E-Certificate</item>
+        <item>*Free E-Certificate Upon Request</item>
+    </string-array>
+
+    <string-array name="dummy_events_price">
+        <item>Rp 100.000,-/pax (Include Dinner)</item>
+        <item>FREE (+E-Certificate)</item>
+        <item>Rp 45.000,-/pax (Include Souvenir)</item>
+        <item>FREE (+E-Certificate)</item>
+    </string-array>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

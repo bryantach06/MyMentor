@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
@@ -32,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         auth = Firebase.auth
+        firestore = FirebaseFirestore.getInstance()
 
         binding.googleLogin?.setOnClickListener {
             signIn()
@@ -111,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
-            startActivity(Intent(this@LoginActivity, QuestionsActivity::class.java))
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             finish()
         }
     }
@@ -147,7 +150,22 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Log.d(TAG, "signInWithEmail:success")
                         val user = auth.currentUser
-                        updateUI(user)
+                        val uid = user?.uid
+                        val token = uid
+
+                        uid?.let { userId ->
+                            val userRef = firestore.collection("users").document(userId)
+                            userRef.set(mapOf("token" to token))
+                                .addOnSuccessListener {
+                                    // Session data saved successfully
+                                    // Proceed to MainActivity
+                                    updateUI(user)
+                                    finish()
+                                }
+                                .addOnFailureListener { exception ->
+                                    // Handle the failure
+                                }
+                        }
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.exception)
                         Toast.makeText(
