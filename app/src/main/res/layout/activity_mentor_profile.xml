@@ -20,6 +20,7 @@
                 android:layout_height="match_parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bg"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
                     android:background="@drawable/profile_background"
@@ -51,30 +52,50 @@
                     app:layout_constraintTop_toBottomOf="@id/iv_profile"
                     tools:text="Mentor name" />
 
-                <TextView
-                    android:id="@+id/tv_mentor_position"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/desc"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@id/tv_mentor_workplace"
-                    app:layout_constraintStart_toStartOf="@id/tv_mentor_name"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_mentor_name"
-                    tools:text="Work position" />
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_mentor_name">
 
-                <TextView
-                    android:id="@+id/tv_mentor_workplace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_mentor_name"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@id/tv_mentor_position"
-                    app:layout_constraintTop_toTopOf="@+id/tv_mentor_position"
-                    tools:text="Workplace" />
+                    <TextView
+                        android:id="@+id/tv_mentor_position"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey"
+                        android:textSize="16sp"
+                        tools:text="Work position" />
+
+                    <TextView
+                        android:id="@+id/tv_dash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey"
+                        android:layout_marginStart="4dp"
+                        android:textSize="16sp"
+                        android:text="@string/dash" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_star"
+                        android:layout_marginStart="4dp" />
+
+                    <TextView
+                        android:id="@+id/tv_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey"
+                        android:textSize="16sp"
+                        android:layout_marginStart="2dp"
+                        tools:text="Rating"/>
+                </LinearLayout>
 
                 <Button
                     android:id="@id/btn_chat_now"
@@ -89,7 +110,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_mentor_workplace" />
+                    app:layout_constraintTop_toBottomOf="@id/desc" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabs"

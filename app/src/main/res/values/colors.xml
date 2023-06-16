@@ -16,7 +16,7 @@
     <color name="main_pink">#FA8886</color>
     <color name="main_yellow">#FFBD5C</color>
     <color name="colorGray">#dedede</color>
-    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_600">#039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>

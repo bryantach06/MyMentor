@@ -32,6 +32,7 @@ class MenteeProfileActivity : AppCompatActivity() {
 
         binding.btnLogout.setOnClickListener {
             auth.signOut()
+            Toast.makeText(this@MenteeProfileActivity,"Logged out", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this@MenteeProfileActivity, WelcomeActivity::class.java))
             finish()
         }
@@ -40,17 +41,13 @@ class MenteeProfileActivity : AppCompatActivity() {
         alertDialogButton()
     }
 
-    private val positiveButtonClick = { _: DialogInterface, _: Int ->
-        Toast.makeText(applicationContext,"Ok", Toast.LENGTH_SHORT).show()
-    }
-
     private fun alertDialogButton() {
         binding.btnEditProfile.setOnClickListener {
             val alertDialog = AlertDialog.Builder(this)
             with(alertDialog) {
                 setTitle(getString(R.string.under_development))
                 setMessage(getString(R.string.edit_profile_desc))
-                setPositiveButton("Ok", DialogInterface.OnClickListener(function = positiveButtonClick))
+                setPositiveButton("Close", null)
                 show()
             }
         }
@@ -60,7 +57,7 @@ class MenteeProfileActivity : AppCompatActivity() {
             with(alertDialog) {
                 setTitle(getString(R.string.under_development))
                 setMessage(getString(R.string.account_desc))
-                setPositiveButton("Ok", DialogInterface.OnClickListener(function = positiveButtonClick))
+                setPositiveButton("Close", null)
                 show()
             }
         }
@@ -70,7 +67,7 @@ class MenteeProfileActivity : AppCompatActivity() {
             with(alertDialog) {
                 setTitle(getString(R.string.under_development))
                 setMessage(getString(R.string.manage_notification_desc))
-                setPositiveButton("Ok", DialogInterface.OnClickListener(function = positiveButtonClick))
+                setPositiveButton("Close", null)
                 show()
             }
         }
@@ -80,7 +77,7 @@ class MenteeProfileActivity : AppCompatActivity() {
             with(alertDialog) {
                 setTitle(getString(R.string.under_development))
                 setMessage(getString(R.string.settings_desc))
-                setPositiveButton("Ok", DialogInterface.OnClickListener(function = positiveButtonClick))
+                setPositiveButton("Close", null)
                 show()
             }
         }
@@ -90,7 +87,7 @@ class MenteeProfileActivity : AppCompatActivity() {
             with(alertDialog) {
                 setTitle(getString(R.string.under_development))
                 setMessage(getString(R.string.liked_posts_desc))
-                setPositiveButton("Ok", DialogInterface.OnClickListener(function = positiveButtonClick))
+                setPositiveButton("Close", null)
                 show()
             }
         }

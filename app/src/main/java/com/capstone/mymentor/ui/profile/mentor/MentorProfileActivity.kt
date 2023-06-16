@@ -7,6 +7,7 @@ import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.annotation.StringRes
+import androidx.browser.trusted.sharing.ShareTarget.FileFormField.KEY_NAME
 import androidx.viewpager2.widget.ViewPager2
 import com.capstone.mymentor.models.DummyMentors
 import com.capstone.mymentor.R
@@ -27,15 +28,12 @@ class MentorProfileActivity : AppCompatActivity() {
         binding = ActivityMentorProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        @Suppress("DEPRECATION")
-        val dummyMentors = intent.getParcelableExtra<DummyMentors>("key_mentors") as DummyMentors
-        if (dummyMentors != null) {
-            binding.tvMentorName.text = dummyMentors.name
-            binding.tvMentorPosition.text = buildString {
-                append(dummyMentors.position)
-                append(",")
-            }
-            binding.tvMentorWorkplace.text = dummyMentors.workplace
+        val name = intent.getStringExtra(KEY_NAME)
+        val position = intent.getStringExtra(KEY_POSITION)
+        val rating = intent.getStringExtra(KEY_RATING)
+
+        if (name != null && position != null && rating != null) {
+            setMentorProfile(name, position, rating)
         }
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
@@ -47,9 +45,6 @@ class MentorProfileActivity : AppCompatActivity() {
         }.attach()
 
         setupView()
-//        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#00000000")))
-//        supportActionBar?.title = null
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun setupView() {
@@ -65,11 +60,18 @@ class MentorProfileActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.hide()
+    }
+
+    private fun setMentorProfile(name: String, position: String, rating: String) {
+        binding.tvMentorName.text = name
+        binding.tvMentorPosition.text = position
+        binding.tvRating.text = rating
     }
 
     companion object {
-        @StringRes
+        const val KEY_NAME = "key_name"
+        const val KEY_POSITION = "key_position"
+        const val KEY_RATING = "key_rating"
         private val TAB_TITLES = intArrayOf(
             R.string.experiences_tab,
             R.string.posts_tab

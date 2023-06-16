@@ -5,21 +5,24 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.mymentor.models.DummyMentors
 import com.capstone.mymentor.R
 import com.capstone.mymentor.adapter.RecommendedMentorsAdapter
+import com.capstone.mymentor.data.response.MentorResultResponseItem
 import com.capstone.mymentor.databinding.FragmentHomeBinding
 import com.capstone.mymentor.ui.feeds.AddPostActivity
 import com.capstone.mymentor.ui.login.LoginActivity
 import com.capstone.mymentor.ui.profile.mentee.MenteeProfileActivity
+import com.google.android.play.integrity.internal.l
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var rvMentors: RecyclerView
-    private val list = ArrayList<DummyMentors>()
+    private val homeViewModel by viewModels<HomeViewModel>()
+//    private val list = ArrayList<DummyMentors>()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -40,11 +43,20 @@ class HomeFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
-        rvMentors = view.findViewById(R.id.rv_mentors)
-        rvMentors.setHasFixedSize(true)
+        homeViewModel.listMentors.observe(viewLifecycleOwner) { email: List<MentorResultResponseItem> ->
+            setMentorsData(email)
+        }
 
-        list.addAll(getListDummyMentors())
+        homeViewModel.isLoading.observe(viewLifecycleOwner) {
+            showLoading(it)
+        }
+
         showRecyclerList()
+
+//        rvMentors = view.findViewById(R.id.rv_mentors)
+//        rvMentors.setHasFixedSize(true)
+//
+//        list.addAll(getListDummyMentors())
 
         binding.ivButtonProfile.setOnClickListener {
             val intent = Intent(requireActivity(), MenteeProfileActivity::class.java)
@@ -53,26 +65,37 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun getListDummyMentors(): ArrayList<DummyMentors> {
-        val dummyMentorName = resources.getStringArray(R.array.dummy_mentor_name)
-        val dummyMentorPosition = resources.getStringArray(R.array.dummy_mentor_position)
-        val dummyMentorWorkplace = resources.getStringArray(R.array.dummy_mentor_workplace)
-        val listDummyMentors = ArrayList<DummyMentors>()
-        for (i in dummyMentorName.indices) {
-            val dummyMentors = DummyMentors(dummyMentorName[i], dummyMentorPosition[i], dummyMentorWorkplace[i])
-            listDummyMentors.add(dummyMentors)
-        }
-        return listDummyMentors
+//    private fun getListDummyMentors(): ArrayList<DummyMentors> {
+//        val dummyMentorName = resources.getStringArray(R.array.dummy_mentor_name)
+//        val dummyMentorPosition = resources.getStringArray(R.array.dummy_mentor_position)
+//        val dummyMentorWorkplace = resources.getStringArray(R.array.dummy_mentor_workplace)
+//        val listDummyMentors = ArrayList<DummyMentors>()
+//        for (i in dummyMentorName.indices) {
+//            val dummyMentors = DummyMentors(dummyMentorName[i], dummyMentorPosition[i], dummyMentorWorkplace[i])
+//            listDummyMentors.add(dummyMentors)
+//        }
+//        return listDummyMentors
+//    }
+
+    private fun setMentorsData(listMentors: List<MentorResultResponseItem>) {
+//        listMentors.sortedByDescending {
+//            it.name
+//        }
+        val adapter = RecommendedMentorsAdapter(listMentors)
+        binding.rvMentors.adapter = adapter
     }
 
     private fun showRecyclerList() {
-        rvMentors.layoutManager = LinearLayoutManager(requireContext())
-        val recommendedMentorsAdapter = RecommendedMentorsAdapter(list)
-        rvMentors.adapter = recommendedMentorsAdapter
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.rvMentors.layoutManager = layoutManager
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
