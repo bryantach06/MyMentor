@@ -1,17 +1,15 @@
 package com.capstone.mymentor.ui.events
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.capstone.mymentor.DummyEvents
-import com.capstone.mymentor.DummyFeeds
 import com.capstone.mymentor.R
 import com.capstone.mymentor.databinding.ActivityDetailEventsBinding
-import com.capstone.mymentor.ui.feeds.DetailFeedsActivity
 
 class DetailEventsActivity : AppCompatActivity() {
 
@@ -25,6 +23,16 @@ class DetailEventsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnBook.setOnClickListener {
+            AlertDialog.Builder(this).apply {
+                setTitle("Feature under development!")
+                setMessage("Event Booking feature will be available upon future development!")
+                setPositiveButton("Close", null)
+                create()
+                show()
+            }
+        }
 
         binding.btnBack.setOnClickListener {
             finish()
@@ -53,6 +61,7 @@ class DetailEventsActivity : AppCompatActivity() {
             tvEventDetailsTime.text = "${detail?.time}"
             tvEventDetailsDescription.text = getString(R.string.lorem_ipsum)
             tvEventDetailsPrice.text = detail?.price
+            tvEventDetailsSpeaker.text = detail?.speaker
         }
     }
 }

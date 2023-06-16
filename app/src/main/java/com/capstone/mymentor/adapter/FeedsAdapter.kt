@@ -1,5 +1,7 @@
 package com.capstone.mymentor.adapter
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +11,7 @@ import com.capstone.mymentor.databinding.RvItemFeedsBinding
 import com.capstone.mymentor.ui.feeds.DetailFeedsActivity
 import com.capstone.mymentor.ui.feeds.DetailFeedsActivity.Companion.EXTRA_NAME
 
-class FeedsAdapter(private val listDummyFeeds: ArrayList<DummyFeeds>) :
+class FeedsAdapter(private val listDummyFeeds: ArrayList<DummyFeeds>, private val context: Context) :
     RecyclerView.Adapter<FeedsAdapter.ViewHolder>() {
 
     class ViewHolder(var binding: RvItemFeedsBinding) : RecyclerView.ViewHolder(binding.root)
@@ -24,10 +26,17 @@ class FeedsAdapter(private val listDummyFeeds: ArrayList<DummyFeeds>) :
         val (name, caption) = listDummyFeeds[position]
         holder.binding.tvRvName.text = name
         holder.binding.tvRvCaption.text = caption
-//        Glide.with(holder.itemView.context)
-//            .load(photo)
-//            .into(holder.binding.ivRvFeeds)
         val dummyFeeds = DummyFeeds(name, caption)
+
+        holder.binding.imageButton.setOnClickListener {
+            AlertDialog.Builder(context).apply {
+                setTitle("Feature under development!")
+                setMessage("Liked Posts feature will be available upon future development!")
+                setPositiveButton("Close", null)
+                create()
+                show()
+            }
+        }
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailFeedsActivity::class.java)
@@ -38,20 +47,3 @@ class FeedsAdapter(private val listDummyFeeds: ArrayList<DummyFeeds>) :
 
     override fun getItemCount(): Int = listDummyFeeds.size
 }
-
-
-//        val database = FirebaseFirestore.getInstance()
-//        val email = Firebase.auth.currentUser?.email.toString()
-//        database.collection("Users Posts").get().addOnSuccessListener { querySnapshot ->
-//
-//            for (document in querySnapshot.documents) {
-//                val user = document.getString("User")
-//                val title = document.getString("Title")
-//                val image = document.getString("Image")
-//
-//                holder.binding.tvRvName.text = user
-//                holder.binding.tvRvCaption.text = title
-//                Glide.with(holder.itemView.context)
-//                    .load(image)
-//                    .into(holder.binding.ivRvFeeds)
-//            }}

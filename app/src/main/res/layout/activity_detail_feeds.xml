@@ -18,8 +18,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/dummy_mentor_profile"
-            tools:srcCompat="@drawable/dummy_mentor_profile"
+            app:srcCompat="@drawable/events"
+            tools:srcCompat="@drawable/events"
             android:contentDescription="Post Image" />
 
         <TextView

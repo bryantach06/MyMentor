@@ -16,32 +16,16 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_company"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:adjustViewBounds = "true"
-            app:strokeWidth="1dp"
-            app:strokeColor="@color/light_grey"
-            app:shapeAppearanceOverlay="@style/RoundedImage"
-            app:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars"/>
-
         <TextView
             android:id="@+id/tv_position"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toEndOf="@+id/iv_company"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Work position" />
 
@@ -49,11 +33,11 @@
             android:id="@+id/tv_place"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toEndOf="@+id/iv_company"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_position"
             tools:text="Work place" />
 
@@ -61,14 +45,14 @@
             android:id="@+id/tv_start_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/grey"
-            android:textSize="14sp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="10dp"
-            app:layout_constraintStart_toEndOf="@+id/iv_company"
-            app:layout_constraintTop_toBottomOf="@+id/tv_place"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_place"
             tools:text="Start date" />
 
         <TextView

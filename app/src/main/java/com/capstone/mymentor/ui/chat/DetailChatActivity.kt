@@ -1,5 +1,6 @@
 package com.capstone.mymentor.ui.chat
 
+import android.app.AlertDialog
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -41,6 +42,16 @@ class DetailChatActivity : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener {
             finish()
+        }
+
+        binding.btnCall.setOnClickListener {
+            AlertDialog.Builder(this).apply {
+                setTitle("Feature under development!")
+                setMessage("Call with Mentor feature will be available upon future development!")
+                setPositiveButton("Close", null)
+                create()
+                show()
+            }
         }
 
         if (BuildConfig.DEBUG) {

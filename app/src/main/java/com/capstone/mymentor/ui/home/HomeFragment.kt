@@ -5,21 +5,22 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.capstone.mymentor.models.DummyMentors
-import com.capstone.mymentor.R
 import com.capstone.mymentor.adapter.RecommendedMentorsAdapter
+import com.capstone.mymentor.data.response.MentorResultResponseItem
 import com.capstone.mymentor.databinding.FragmentHomeBinding
-import com.capstone.mymentor.ui.feeds.AddPostActivity
-import com.capstone.mymentor.ui.login.LoginActivity
 import com.capstone.mymentor.ui.profile.mentee.MenteeProfileActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var rvMentors: RecyclerView
-    private val list = ArrayList<DummyMentors>()
+    private val homeViewModel by viewModels<HomeViewModel>()
+    private lateinit var auth: FirebaseAuth
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -40,39 +41,70 @@ class HomeFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
-        rvMentors = view.findViewById(R.id.rv_mentors)
-        rvMentors.setHasFixedSize(true)
+        auth = Firebase.auth
+        val currentUser = auth.currentUser
+        val uid = currentUser?.uid
 
-        list.addAll(getListDummyMentors())
-        showRecyclerList()
+        if (uid != null) {
+
+            val firebase = FirebaseFirestore.getInstance()
+            val users = firebase.collection("users").document(uid)
+            users.get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    val name = snapshot.getString("Name")
+                    name?.let {
+                        println("Field value: $it")
+                        binding.name.text  = name
+                        binding.ivButtonProfile.setOnClickListener {
+                            val intent = Intent(requireActivity(), MenteeProfileActivity::class.java)
+                            intent.putExtra("name", name)
+                            startActivity(intent)
+                        }
+                    } ?: println("Field value is null")
+                } else {
+                    println("Document does not exist")
+                }
+            }
+                .addOnFailureListener { exception ->
+                    println("Error getting document: $exception")
+            }
+        }
+
+        homeViewModel.listMentors.observe(viewLifecycleOwner) { email: List<MentorResultResponseItem> ->
+            setMentorsData(email)
+        }
+
+        homeViewModel.isLoading.observe(viewLifecycleOwner) {
+            showLoading(it)
+        }
 
         binding.ivButtonProfile.setOnClickListener {
             val intent = Intent(requireActivity(), MenteeProfileActivity::class.java)
             startActivity(intent)
         }
+
+        showRecyclerList()
     }
 
-
-    private fun getListDummyMentors(): ArrayList<DummyMentors> {
-        val dummyMentorName = resources.getStringArray(R.array.dummy_mentor_name)
-        val dummyMentorPosition = resources.getStringArray(R.array.dummy_mentor_position)
-        val dummyMentorWorkplace = resources.getStringArray(R.array.dummy_mentor_workplace)
-        val listDummyMentors = ArrayList<DummyMentors>()
-        for (i in dummyMentorName.indices) {
-            val dummyMentors = DummyMentors(dummyMentorName[i], dummyMentorPosition[i], dummyMentorWorkplace[i])
-            listDummyMentors.add(dummyMentors)
-        }
-        return listDummyMentors
+    private fun setMentorsData(listMentors: List<MentorResultResponseItem>) {
+//        listMentors.sortedByDescending {
+//            it.name
+//        }
+        val adapter = RecommendedMentorsAdapter(listMentors)
+        binding.rvMentors.adapter = adapter
     }
 
     private fun showRecyclerList() {
-        rvMentors.layoutManager = LinearLayoutManager(requireContext())
-        val recommendedMentorsAdapter = RecommendedMentorsAdapter(list)
-        rvMentors.adapter = recommendedMentorsAdapter
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.rvMentors.layoutManager = layoutManager
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

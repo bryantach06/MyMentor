@@ -24,7 +24,7 @@
             android:layout_height="300dp"
             android:layout_marginTop="16dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/dummy_mentor_profile"
+            android:src="@drawable/events"
             app:layout_constraintEnd_toEndOf="parent"
             app:shapeAppearanceOverlay="@style/RoundedImage"
             card_view:layout_constraintStart_toStartOf="parent"

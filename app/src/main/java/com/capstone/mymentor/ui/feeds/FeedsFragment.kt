@@ -61,7 +61,7 @@ class FeedsFragment : Fragment() {
 
     private fun showRecyclerList() {
         rvFeeds.layoutManager = LinearLayoutManager(requireContext())
-        val feedsAdapter = FeedsAdapter(listFeeds)
+        val feedsAdapter = FeedsAdapter(listFeeds, requireContext())
         rvFeeds.adapter = feedsAdapter
     }
 

@@ -4,11 +4,11 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.mymentor.models.DummyMentors
+import com.capstone.mymentor.data.response.MentorResultResponseItem
 import com.capstone.mymentor.databinding.ItemRowMentorBinding
 import com.capstone.mymentor.ui.profile.mentor.MentorProfileActivity
 
-class RecommendedMentorsAdapter(val listDummyMentors: ArrayList<DummyMentors>) : RecyclerView.Adapter<RecommendedMentorsAdapter.ListViewHolder>() {
+class RecommendedMentorsAdapter(private val listMentors: List<MentorResultResponseItem>) : RecyclerView.Adapter<RecommendedMentorsAdapter.ListViewHolder>() {
     class ListViewHolder(var binding: ItemRowMentorBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
@@ -20,27 +20,35 @@ class RecommendedMentorsAdapter(val listDummyMentors: ArrayList<DummyMentors>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (name, workPosition, workplace) = listDummyMentors[position]
-        holder.binding.tvMentorName.text = name
-        holder.binding.tvMentorPosition.text = workPosition
-        holder.binding.tvMentorWorkplace.text = workplace
-//      Glide.with(holder.itemView.context)
-//            .load(photo)
-//            .into(holder.binding.ivMentor)
+//        val (name, workPosition, workplace) = listMentors[position].mentorResultResponse
+//        holder.binding.tvMentorName.text = name
+//        holder.binding.tvMentorPosition.text = workPosition
+//        holder.binding.tvMentorWorkplace.text = workplace
 
-//        if (position % 2 == 0) {
-//            holder.binding.cardView.setCardBackgroundColor(Color.parseColor("#4D2C5C"))
-//        } else {
-//            holder.binding.cardView.setCardBackgroundColor(Color.parseColor("#FFBD5C"))
-//        }
+        holder.binding.apply {
+            tvMentorName.text = listMentors[position].name
+            tvMentorPosition.text = listMentors[position].workPosition
+            tvRating.text = listMentors[position].rating.toString()
+        }
 
         holder.binding.cardView.setOnClickListener{
             val intentMentorProfile = Intent(holder.binding.cardView.context, MentorProfileActivity::class.java)
-            intentMentorProfile.putExtra("key_mentors", listDummyMentors[holder.adapterPosition])
+            intentMentorProfile.putExtra(
+                MentorProfileActivity.KEY_NAME,
+                listMentors[holder.adapterPosition].name
+            )
+            intentMentorProfile.putExtra(
+                MentorProfileActivity.KEY_POSITION,
+                listMentors[holder.adapterPosition].workPosition
+            )
+            intentMentorProfile.putExtra(
+                MentorProfileActivity.KEY_RATING,
+                listMentors[holder.adapterPosition].rating.toString()
+            )
             holder.binding.cardView.context.startActivity(intentMentorProfile)
         }
     }
 
-    override fun getItemCount(): Int = listDummyMentors.size
+    override fun getItemCount(): Int = listMentors.size
 
 }

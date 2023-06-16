@@ -31,7 +31,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/dummy_mentor_profile" />
+            android:src="@drawable/mentor" />
 
         <TextView
             android:id="@+id/tv_mentor_name"
@@ -58,17 +58,37 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_mentor_name"
             tools:text="Mentor work position" />
 
+<!--        <TextView-->
+<!--            android:id="@+id/tv_mentor_workplace"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="12dp"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/iv_mentor"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tv_mentor_position"-->
+<!--            tools:text="Mentor workplace" />-->
+
+        <ImageView
+            android:id="@+id/iv_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_star"
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@id/iv_mentor"
+            app:layout_constraintBottom_toBottomOf="@id/iv_mentor"/>
+
         <TextView
-            android:id="@+id/tv_mentor_workplace"
+            android:id="@+id/tv_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/black"
+            android:textColor="@color/grey"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/iv_mentor"
-            app:layout_constraintTop_toBottomOf="@+id/tv_mentor_position"
-            tools:text="Mentor workplace" />
+            tools:text="Rating"
+            app:layout_constraintStart_toEndOf="@id/iv_rate"
+            app:layout_constraintTop_toTopOf="@id/iv_rate"
+            app:layout_constraintBottom_toBottomOf="@id/iv_rate"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
